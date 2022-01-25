@@ -1,0 +1,47 @@
+@import "../../../styles/variables";
+
+.avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &-name {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 19px;
+    color: #FFFFFF;
+    background: $blue;
+    text-align: center;
+  }
+
+  &-img {
+    img {
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(10, 170, 244, 0.8);;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar:hover .overlay {
+  opacity: 1;
+}

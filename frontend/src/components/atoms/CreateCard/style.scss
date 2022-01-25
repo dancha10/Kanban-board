@@ -1,0 +1,29 @@
+.create-card {
+  padding: 10px 15px;
+  width: 362px;
+  height: 160px;
+  background: #FFFFFF;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #213864;
+
+  transition: all .3s linear;
+  @media (any-hover: hover) {
+      &:hover {
+        border: 1px dashed #2DA6F8;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+        color: #38A9F8;
+      }
+  }
+}
+
+.create-column {
+  height: 50px;
+}

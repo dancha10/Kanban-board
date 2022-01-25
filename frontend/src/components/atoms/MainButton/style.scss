@@ -1,0 +1,41 @@
+svg {
+  transition: all 0.3s linear;
+}
+
+.main-button {
+  width: 140px;
+  height: 42px;
+  border: 1px solid #213864;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #213864;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s linear;
+
+  @media (any-hover: hover) {
+      &:hover {
+        background: #F1F9FF;
+        border: 1px solid #2DA6F8;
+        color: #1E9EF7;
+        svg {
+          fill: #1E9EF7;
+        }
+      }
+  }
+  &:focus {
+    background: #2DA6F8;
+    color: white;
+    svg {
+      fill: #FFFFFF
+    }
+  }
+
+  &__check {
+    margin: 0px 5px 0px 0px;
+  }
+}

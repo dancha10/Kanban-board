@@ -1,0 +1,81 @@
+.board-icon {
+  // display: block;
+  width: 45px;
+  height: 45px;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  transition: background-color .3s linear;
+
+  &--active {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 53px;
+      height: 53px;
+      border: 3px solid #0AAAF4;
+      border-radius: 3px;
+    }
+  }
+}
+
+.red {
+  background: tomato;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #F14223;
+    }
+  }
+}
+
+.yellow {
+  background: #FFD35C;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #FEC604;
+    }
+  }
+}
+
+.orange {
+  background: #F97C1C;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #FC7208;
+    }
+  }
+}
+
+.green {
+  background: #41D0B6;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #18E5C0;
+    }
+  }
+}
+
+.blue {
+  background: #2CADF6;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #0CA2F8;
+    }
+  }
+}
+
+.purple {
+  background: #891BE8;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #8808F8;
+    }
+  }
+}

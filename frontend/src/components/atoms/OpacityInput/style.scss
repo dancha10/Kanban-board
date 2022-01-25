@@ -1,0 +1,59 @@
+.input-opacity {
+  width: max-content;
+  height: max-content;
+  position: relative;
+  // border-bottom: 2px solid #2DA6F8;
+
+  &__field {
+
+    padding: 0 7px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #303030;
+    width: 480px;
+    height: 36px;
+    border-bottom: 2px solid #E6E6E6;
+    transition: border-bottom-color .4s linear;
+    @media (any-hover: hover) {
+        &:hover {
+          border-bottom: 2px solid #9F9F9F;
+        }
+    }
+    &::placeholder {
+      font-size: 18px;
+      line-height: 27px;
+      color: #9F9F9F;
+    }
+
+    &--active {
+      border-bottom: 2px solid #2DA6F8;
+      @media (any-hover: hover) {
+          &:hover {
+            border-bottom: 2px solid #2DA6F8;
+          }
+      }
+    }
+  }
+
+  &__counter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    background: #9F9F9F;
+    border-radius: 2px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--active {
+      background: #2DA6F8;
+    }
+  }
+}
+
+
