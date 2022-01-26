@@ -8,9 +8,16 @@ module.exports = class ApiError extends Error {
         this.error = error
     }
 
-    static UnauthorizedError() {
+    static Unauthorized() {
         return new ApiError(401, 'User is not authorized')
     }
-    //TODO add BadRequest
+
+    static NotFound(message) {
+        return new ApiError(404, `${message} not founded`)
+    }
+
+    static BadRequest(status, message) {
+        return new ApiError(status, message)
+    }
 
 }

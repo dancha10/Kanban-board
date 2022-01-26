@@ -1,62 +1,82 @@
 const {Router} = require('express');
 const router = Router();
 
-const authMiddleware = require('../middleware/auth.middleware')
+const auth = require('../middleware/auth.middleware')
 
-const Board = require('../models/Board')
 const Card = require('../models/Card')
+const Column = require('../models/Column')
 
-router.post('/create', authMiddleware, async (request, response) => {
+const ApiError = require('../exceptions/ApiError')
+
+// /api/card/create
+router.post('/create', auth, async (request, response, next) => {
     try {
-        const {boardID, cardName} = request.body // Прилетает id доски 61d979ed9fc4160686401f39
+        // TODO FILES !!!! NENODELANNIY
+        // TODO VSE PEREDELAT SROCHNO
+        // VSE GOVNO
+        console.log(request.body)
+        const {CID, task, description, cover, border, files, start, end, isCompleted} = request.body
+        const card = await Card.create({
+            task,
+            description,
+            cover,
+            border,
+            files: [...files],
+            'time.start': start,
+            'time.end': end,
+            'time.isCompleted': isCompleted
+        })
+        const searchColumn = await Column.findById({_id: CID})
+        if (!searchColumn) throw ApiError.NotFound('Column')
 
-        const card = await Card.create({cardName})
-
-        const searchBoard = await Board.findById({_id: boardID})
-
-        if (!searchBoard) return response.status(400).json({message: 'Такой доски нет в базе'})
-
-        await Board.findOneAndUpdate({_id: boardID}, {
+        await Column.findOneAndUpdate({_id: CID}, {
             $push: {
                 cards: [card]
             }
         })
 
-        response.status(201).json({message: 'Карточка создана'});
+        response.status(201).json({message: 'Card created'});
     } catch (e) {
-        response.status(500).json({message: 'Что-то пошло не так...'});
+        next(e)
     }
 })
 
-router.put('/change', authMiddleware, async (request, response) => {
+// /api/task/change
+router.post('/change/:id', auth, async (request, response, next) => {
     try {
-        const {cardID, newCardName} = request.body // Прилетает id карточки 61dc36657aefd243fbad21ec
+        const CardID = request.params.id
+        const {newTask, newDescription, newCover, newBorder, newFiles} = request.body
 
-        const searchCard = await Card.findById({_id: cardID})
-        if (!searchCard) return response.status(400).json({message: 'Такой карточки нет в базе'})
+        const searchCard = await Card.findById({_id: CardID})
+        if (!searchCard) throw ApiError.NotFound('Card')
 
-        await Card.findOneAndUpdate({_id: cardID}, {cardName: newCardName})
-        response.status(201).json({message: 'Карточка обновлена'});
-    } catch (e) {
-        response.status(500).json({message: 'Что-то пошло не так...'});
-    }
-})
-
-router.delete('/delete', authMiddleware, async (request, response) => {
-    try {
-        const {cardID} = request.body // Прилетает id карточки 61dc6c0032d3f15f3d81e3a6
-
-        const searchCard = await Card.findById({_id: cardID})
-        if (!searchCard)
-            return response.status(400).json({message: 'Такой карточки нет в базе'})
-
-        await Card.findByIdAndDelete({_id: cardID})
-        await Board.findOneAndUpdate({cards: {$elemMatch: {$in: cardID}}}, {
-            $pull: {cards: cardID}
+        await Card.findOneAndUpdate({_id: CardID}, {
+            $set: {
+                task: newTask, description: newDescription, cover: newCover, border: newBorder, files: [...newFiles]
+            }
         })
-        response.status(201).json({message: 'Карточка удалена'});
+
+        response.status(200).json({message: 'Card update'});
     } catch (e) {
-        response.status(500).json({message: 'Что-то пошло не так...'});
+        next(e)
+    }
+})
+
+// /api/task/delete
+router.delete('/delete/:id', auth, async (request, response, next) => {
+    try {
+        const CardID = request.params.id
+
+        const searchCard = await Card.findById({_id: CardID})
+        if (!searchCard) throw ApiError.NotFound('Card')
+
+        await Card.findByIdAndDelete({_id: CardID})
+        await Column.findOneAndUpdate({cards: {$elemMatch: {$in: CardID}}}, {
+            $pull: {cards: CardID}
+        })
+        response.status(200).json({message: 'Card delete'});
+    } catch (e) {
+        next(e)
     }
 })
 

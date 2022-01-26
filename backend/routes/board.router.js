@@ -1,91 +1,104 @@
 const {Router} = require('express');
 const router = Router();
 
+const {nanoid} = require("nanoid");
+
 const Board = require('../models/Board')
 const User = require('../models/User')
 
-const authMiddleware = require('../middleware/auth.middleware')
+const auth = require('../middleware/auth.middleware')
 
-router.get('/', authMiddleware, async (request, response) => {
+const ApiError = require('../exceptions/ApiError')
+
+// TODO mb delete useless!!!
+router.get('/', auth, async (request, response, next) => {
     try {
-        const boards = await Board.find({users: {$elemMatch: {$in: request.user.userID}}})
-            .populate({
-                path: 'cards',
-                populate: {
-                    path: 'tasks',
-                    model: 'Task'
-                }
-            }).populate('users', 'avatar nickname')
-        if (!boards) return response.status(400).json({message: 'Досок нет'})
+        const boards = await Board.find({users: {$elemMatch: {$in: request.user.userID}}}).select('BID title background')
+        if (!boards) throw ApiError.NotFound('Boards')
         response.json(boards)
     } catch (e) {
-        response.status(500).json({message: 'Почему-то доски не вывелись...'});
+        next(e)
     }
 })
 
-router.post('/create', authMiddleware, async (request, response) => {
+// api/board/id
+router.get('/:id', auth, async (request, response, next) => {
+    try {
+        const board = await Board.findOne({BID: request.params.id}).populate({
+            path: 'columns',
+            populate: {
+                path: 'cards',
+                model: 'Card'
+            }
+        }).populate('users', 'avatar nickname')
+        if (!board) throw ApiError.NotFound('Boards')
+        response.json(board)
+    } catch (e) {
+        next(e)
+    }
+})
+
+// api/board/create
+router.post('/create', auth, async (request, response, next) => {
     try {
         console.log(request.user.userID)
         const {title, background} = request.body
-        await Board.create({title, background, owner: request.user.userID, users: [request.user.userID]}) // TODO мб убрать дублирование одинаковых айдишников
-        response.status(201).json({message: 'Доска создана'});
+        const BID = nanoid(8)
+        await Board.create({BID, title, background, owner: request.user.userID, users: [request.user.userID]}) // TODO мб убрать дублирование одинаковых айдишников
+        response.status(201).json({message: 'Board created'});
     } catch (e) {
-        response.status(500).json({message: 'Почему-то доска не добавилась...'});
+        next(e)
     }
 })
 
-router.put('/change', authMiddleware, async (request, response) => {
+// api/board/change/id
+router.put('/change/:id', auth, async (request, response, next) => {
     try {
-        const {boardID, newTitle, newBackground} = request.body // Прилетает id доски 61d979ed9fc4160686401f39
+        const {newTitle, newBackground} = request.body // Прилетает id доски 61d979ed9fc4160686401f39
 
-        const isOwner = await Board.findOne({_id: boardID})
-        if (isOwner.owner != request.user.userID) return response.status(400).json({message: 'Вы не создатель доски'})
+        const isOwner = await Board.findOne({BID: request.params.id})
+        if (isOwner.owner != request.user.userID) throw ApiError.BadRequest('You are not the creator of the board')
 
-        await Board.findOneAndUpdate({_id: boardID}, {
+        await Board.findOneAndUpdate({_id: request.params.id}, {
             $set: {
                 "title": newTitle,
                 "background": newBackground
             }
         })
-        response.status(201).json({message: 'Изменения применены'});
+        response.status(201).json({message: 'Changes applied'});
     } catch (e) {
-        response.status(500).json({message: 'Что-то пошло не так...'});
+        next(e)
     }
 })
 
-//#HcLtY
-
-router.post('/invite', authMiddleware, async (request, response) => {
+// api/board/invite
+router.post('/invite', auth, async (request, response, next) => {
     try {
         const {generationID} = request.body
         const candidate = await User.findOne({generationID})
 
-        if (!candidate)
-            return response.status(400).json({message: 'Такого пользователя не существует'})
+        if (!candidate) throw ApiError.BadRequest(404, 'This user does not exist')
 
         await Board.findOneAndUpdate({users: [request.user.userID]}, {
             $push: {
                 users: candidate._id
             }
         })
-        response.status(201).json({message: 'Пользователь добавлен'})
+        response.status(201).json({message: 'User added'})
     } catch (e) {
-        response.status(500).json({message: 'Почему-то пользователь не приглашен...'});
+        next(e)
     }
 })
 
-router.delete('/delete', authMiddleware, async (request, response) => {
-    try {
-        const {boardID} = request.body // Прилетает id
+router.delete('/delete/:id', auth, async (request, response, next) => {
+    try {// Прилетает id
+        const searchBoard = await Board.findOne({BID: request.params.id})
+        if (!searchBoard) throw ApiError.NotFound('This board')
 
-        const searchBoard = await Board.findById({_id: boardID})
-        if (!searchBoard)
-            return response.status(400).json({message: 'Такой доски нет в базе'})
-
-        await Board.findByIdAndDelete({_id: boardID})
-        response.status(201).json({message: 'Доска удалена'});
+        await Board.findOneAndDelete({BID: request.params.id})
+        response.status(201).json({message: 'Board removed'});
     } catch (e) {
-        response.status(500).json({message: 'Что-то пошло не так...'});
+        next(e)
     }
 })
 
