@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose')
-const {nanoid} = require('nanoid')
 
 const schema = new Schema({
     BID: {type: String, required: true, unique: true},

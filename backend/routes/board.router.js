@@ -4,6 +4,7 @@ const router = Router();
 const {nanoid} = require("nanoid");
 
 const Board = require('../models/Board')
+const Column = require('../models/Column')
 const User = require('../models/User')
 
 const auth = require('../middleware/auth.middleware')
@@ -44,7 +45,18 @@ router.post('/create', auth, async (request, response, next) => {
         console.log(request.user.userID)
         const {title, background} = request.body
         const BID = nanoid(8)
-        await Board.create({BID, title, background, owner: request.user.userID, users: [request.user.userID]}) // TODO мб убрать дублирование одинаковых айдишников
+
+        const firstExample = await Column.create({ColumnTitle: 'TODO'})
+        const secondExample = await Column.create({ColumnTitle: 'In process'})
+
+        await Board.create({
+            BID,
+            title,
+            background,
+            owner: request.user.userID,
+            users: [request.user.userID],
+            columns: [firstExample, secondExample]
+        }) // TODO мб убрать дублирование одинаковых айдишников
         response.status(201).json({message: 'Board created'});
     } catch (e) {
         next(e)
@@ -54,7 +66,7 @@ router.post('/create', auth, async (request, response, next) => {
 // api/board/change/id
 router.put('/change/:id', auth, async (request, response, next) => {
     try {
-        const {newTitle, newBackground} = request.body // Прилетает id доски 61d979ed9fc4160686401f39
+        const {newTitle, newBackground} = request.body
 
         const isOwner = await Board.findOne({BID: request.params.id})
         if (isOwner.owner != request.user.userID) throw ApiError.BadRequest('You are not the creator of the board')
