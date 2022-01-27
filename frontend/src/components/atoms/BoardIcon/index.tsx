@@ -11,7 +11,6 @@ interface IBoardIcon {
 
 export const BoardIcon: React.FC<IBoardIcon> = ({ title, color, path }) => {
 	const letter = title.split('')[0]
-	console.log(color)
 	return (
 		<NavLink
 			to={`/b/${path}`}
