@@ -1,12 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { BellNotification } from '../../atoms/BellNotification'
 import { Avatar } from '../../atoms/Avatar'
 
+import { SCREENS } from '../../../routes/endpoints'
 import './style.scss'
 
 export const Header = () => {
 	return (
-		<header className='header'>
+		<div className='header'>
 			<div className='header__container'>
 				<div className='header__logo'>
 					<svg
@@ -44,7 +46,11 @@ export const Header = () => {
 							fill='#F8BD1C'
 						/>
 					</svg>
-					<h1>Bruhello</h1>
+					<h1>
+						<Link to={SCREENS.SCREENS__MAIN} className='header__title'>
+							Bruhello
+						</Link>
+					</h1>
 				</div>
 				<div className='header__menu'>
 					<div className='header__notification'>
@@ -55,6 +61,6 @@ export const Header = () => {
 					</div>
 				</div>
 			</div>
-		</header>
+		</div>
 	)
 }

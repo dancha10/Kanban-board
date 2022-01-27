@@ -1,10 +1,12 @@
 .user-list {
   display: flex;
   align-items: center;
+  width: 160px;
+  max-width: 160px;
 
   &__face {
     &:not(:first-child) {
-      margin-left: -15px;
+      margin-left: -20px;
     }
   }
 }

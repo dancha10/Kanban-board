@@ -21,10 +21,11 @@
     align-items: center;
   }
 
-  & h1 {
+  &__title {
     color: $blue;
     margin-left: 15px;
   }
+
   &__menu {
     display: flex;
     align-items: center;

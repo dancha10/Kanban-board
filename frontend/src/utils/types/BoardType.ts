@@ -1,7 +1,15 @@
-import { IAvatar } from '../../components/atoms/Avatar'
-
 export interface IBoard {
 	boards: Array<IBoardElements>
+}
+
+export interface IBoardElements {
+	_id: string
+	BID: string
+	title: string
+	background: string
+	owner: string
+	users: Array<IUsers>
+	cards: Array<IColumns>
 }
 
 export interface IUsers {
@@ -10,11 +18,8 @@ export interface IUsers {
 	nickname: string
 }
 
-export interface IBoardElements {
-	_id: string
-	title: string
-	background: string
-	owner: string
-	users: Array<IUsers>
-	cards: Array<any>
+export interface IColumns {
+	_id?: string
+	cardName: string
+	tasks: Array<any>
 }

@@ -1,38 +1,28 @@
 import React from 'react'
-import { Avatar, IAvatar } from '../../atoms/Avatar'
-
-import './style.scss'
+import { Avatar } from '../../atoms/Avatar'
 import { IUsers } from '../../../utils/types/BoardType'
 
+import './style.scss'
+
 export interface IUserList {
-	UserList: Array<IUsers>
+	UserList: Array<IUsers> | undefined
 }
 
 export const UserList: React.FC<IUserList> = ({ UserList }) => {
-	const newUserList = UserList.splice(0, 7)
-	if (UserList.length >= 7) {
-		return (
-			<>
-				{newUserList.map(user => {
+	return (
+		<div className='user-list' key='fsdfsd'>
+			{UserList &&
+				UserList.map(user => {
 					return (
-						<div className='user-list__face' key={user.nickname}>
-							<Avatar type='icon' nickname={user.nickname} avatar={user.avatar} />
+						<div className='user-list__face' key={user._id + user.nickname}>
+							<Avatar
+								type='icon'
+								nickname={user.nickname}
+								avatar='https://cdnb.artstation.com/p/assets/images/images/039/048/331/large/michael-mao-c1-2.jpg?1624812008'
+							/>
 						</div>
 					)
 				})}
-				<div className='user-list__counter'>{`${UserList.length - 7}`}</div>
-			</>
-		)
-	}
-	return (
-		<div className='user-list'>
-			{UserList.map(user => {
-				return (
-					<div className='user-list__face' key={user.nickname}>
-						<Avatar type='icon' nickname={user.nickname} avatar={user.avatar} />
-					</div>
-				)
-			})}
 		</div>
 	)
 }

@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from './hooks/router.hook'
 import { useAuth } from './hooks/auth.hook'
 import { AuthContext } from './utils/context/AuthContext'
+
+import { Loader } from './components/atoms/Loader'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export function App() {
 	const { login, logout, isReady, refresh, token } = useAuth()
@@ -21,10 +24,7 @@ export function App() {
 		}
 	}, [])
 
-	if (!isReady) {
-		console.log('loader')
-		return <div style={{ height: '100vh', background: 'red' }}>Loader...</div>
-	}
+	if (!isReady) return <Loader />
 
 	return (
 		<AuthContext.Provider value={ProviderProps}>

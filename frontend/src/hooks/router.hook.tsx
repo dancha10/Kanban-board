@@ -1,7 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import { Layout } from '../components/template/Layout'
 import { AuthPage } from '../pages/AuthPage'
 import { SignUpPage } from '../pages/SignUpPage'
+import { MainPage } from '../pages/MainPage'
 import { BoardPage } from '../pages/BoardPage'
 
 import { SCREENS } from '../routes/endpoints'
@@ -13,7 +16,10 @@ export const useRouter: RouterHook = isAuthenticated => {
 		return (
 			<BrowserRouter>
 				<Routes>
-					<Route path={SCREENS.SCREENS__MAIN} element={<BoardPage />} />
+					<Route path={SCREENS.SCREENS__MAIN} element={<Layout />}>
+						<Route index element={<MainPage />} />
+						<Route path={`${SCREENS.SCREENS__MAIN}/b/:id`} element={<BoardPage />} />
+					</Route>
 
 					{/* <Route path='*' element={<div>Redirect</div>} /> */}
 				</Routes>

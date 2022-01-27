@@ -1,0 +1,16 @@
+.column {
+  height: max-content;
+  &:not(:last-child) {
+    margin-right: 40px;
+  }
+  &__header {
+    margin-bottom: 15px;
+  }
+
+
+
+
+  &__create-card {
+    margin-top: 15px;
+  }
+}

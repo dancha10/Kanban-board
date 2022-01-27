@@ -1,0 +1,39 @@
+.board-page {
+
+  &__choose-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__choose-message {
+    width: 790px;
+    height: 415px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 50px;
+    font-size: 36px;
+    line-height: 1.5em;
+    color: #ACACAC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__create {
+    background: none;
+    font-size: 36px;
+    line-height: 1.5em;
+    color: #1E9EF7;
+    transition: all .3s linear;
+    text-decoration-color: transparent;
+
+    @media (any-hover: hover) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
