@@ -11,7 +11,7 @@ export const OpacityInput: React.FC<OpacityInputType> = ({
 	type = 'text',
 	placeholder,
 	maxLength = 40,
-	id,
+	inputRef,
 }) => {
 	const [counter, setCounter] = useState<number>(maxLength)
 	const [learnValue, setLearnValue] = useState<number>(0)
@@ -31,12 +31,12 @@ export const OpacityInput: React.FC<OpacityInputType> = ({
 			<input
 				type={type}
 				placeholder={placeholder}
-				id={id}
 				className={classList('input-opacity__field', {
 					'input-opacity__field--active': isActive,
 				})}
 				onChange={event => ChangeValue(event.target.value)}
 				maxLength={maxLength}
+				ref={inputRef}
 			/>
 			<p
 				className={classList('input-opacity__counter', {

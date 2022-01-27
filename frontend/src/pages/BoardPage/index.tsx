@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRequest } from '../../hooks/request.hook'
-import { IBoardElements } from '../../utils/types/BoardType'
 
-import './style.scss'
 import { UserList } from '../../components/molecules/UserList'
 import { MainButton } from '../../components/atoms/MainButton'
 import { Column } from '../../components/organisms/Column'
 import { Loader } from '../../components/atoms/Loader'
-import { ModalWindow } from '../../components/atoms/ModalWindow'
+
+import { IBoardElements } from '../../utils/types/BoardType'
+
+import './style.scss'
+import { useModal } from '../../hooks/modal.hook'
 
 export const BoardPage = () => {
 	const { isLoading, request, error, clearError } = useRequest()
 	const [CurrentBoard, setCurrentBoard] = useState<IBoardElements>()
 	const location = useLocation()
-	const [modalActive, setModalActive] = useState(false)
+
+	const { ModalInvite, setModalInvite } = useModal()
 
 	useEffect(() => {
 		console.log('Board-Page')
@@ -35,8 +38,8 @@ export const BoardPage = () => {
 
 	return (
 		<div className='main-body'>
-			<button onClick={() => setModalActive(true)}>Open</button>
-			<ModalWindow modalActive={modalActive} setModalActive={setModalActive} isButtonClose />
+			<button onClick={() => setModalInvite(true)}>Open</button>
+			{ModalInvite}
 
 			<div className='main-body__header'>
 				<h1 className='main-body__title'>{CurrentBoard?.title}</h1>

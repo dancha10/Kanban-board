@@ -1,12 +1,14 @@
 import React from 'react'
+import { useModal } from '../../../hooks/modal.hook'
+
+import { BoardIcon } from '../../atoms/BoardIcon'
 
 import { IBoard } from '../../../utils/types/BoardType'
-import { BoardIcon } from '../../atoms/BoardIcon'
 
 import './style.scss'
 
 export const NavBar: React.FC<IBoard> = ({ boards }) => {
-	console.log(boards)
+	const { ModalCreateBoard, setModalCreateBoard } = useModal()
 	return (
 		<nav className='navbar'>
 			<ul>
@@ -16,9 +18,12 @@ export const NavBar: React.FC<IBoard> = ({ boards }) => {
 					</li>
 				))}
 				<li className='navbar__item'>
-					<button className='navbar__add-board'>+</button>
+					<button className='navbar__add-board' onClick={() => setModalCreateBoard(true)}>
+						+
+					</button>
 				</li>
 			</ul>
+			{ModalCreateBoard}
 		</nav>
 	)
 }

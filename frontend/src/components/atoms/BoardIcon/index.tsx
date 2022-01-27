@@ -10,7 +10,7 @@ interface IBoardIcon {
 }
 
 export const BoardIcon: React.FC<IBoardIcon> = ({ title, color, path }) => {
-	const letter = title.split('')[0]
+	const letter = title.split('')[0].toUpperCase()
 	return (
 		<NavLink
 			to={`/b/${path}`}
