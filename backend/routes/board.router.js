@@ -42,8 +42,7 @@ router.get('/:id', auth, async (request, response, next) => {
 // api/board/create
 router.post('/create', auth, async (request, response, next) => {
     try {
-        console.log(request.user.userID)
-        const {title, background} = request.body
+        const {title} = request.body
         const BID = nanoid(8)
 
         const firstExample = await Column.create({ColumnTitle: 'TODO'})
@@ -52,7 +51,6 @@ router.post('/create', auth, async (request, response, next) => {
         await Board.create({
             BID,
             title,
-            background,
             owner: request.user.userID,
             users: [request.user.userID],
             columns: [firstExample, secondExample]

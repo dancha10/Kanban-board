@@ -3,7 +3,7 @@ const {Schema, model} = require('mongoose')
 const schema = new Schema({
     BID: {type: String, required: true, unique: true},
     title: {type: String, required: true, default: 'New board'},
-    background: {type: String, default: 'default'},
+    background: {type: String, default: 'blue'},
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
     users: [{type: Schema.Types.ObjectId, ref: 'User'}],
     columns: [{type: Schema.Types.ObjectId, ref: 'Column'}]
