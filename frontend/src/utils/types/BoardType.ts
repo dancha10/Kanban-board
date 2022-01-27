@@ -9,7 +9,7 @@ export interface IBoardElements {
 	background: string
 	owner: string
 	users: Array<IUsers>
-	cards: Array<IColumns>
+	columns: Array<IColumns>
 }
 
 export interface IUsers {
@@ -20,6 +20,6 @@ export interface IUsers {
 
 export interface IColumns {
 	_id?: string
-	cardName: string
-	tasks: Array<any>
+	ColumnTitle: string
+	cards: Array<any>
 }

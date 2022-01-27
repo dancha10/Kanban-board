@@ -3,14 +3,14 @@ import React from 'react'
 import { ListHeader } from '../../atoms/ListHeader'
 import { CreateCard } from '../../atoms/CreateCard'
 
-import './style.scss'
 import { IColumns } from '../../../utils/types/BoardType'
+import './style.scss'
 
-export const Column: React.FC<IColumns> = ({ cardName, tasks }) => {
+export const Column: React.FC<IColumns> = ({ ColumnTitle, cards }) => {
 	return (
 		<div className='column'>
 			<div className='column__header'>
-				<ListHeader title={cardName} />
+				<ListHeader title={ColumnTitle} />
 			</div>
 			<div className='column__list-column'>
 				<p>lala</p>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRequest } from '../../hooks/request.hook'
+import { useModal } from '../../hooks/modal.hook'
 
 import { UserList } from '../../components/molecules/UserList'
 import { MainButton } from '../../components/atoms/MainButton'
@@ -8,9 +9,7 @@ import { Column } from '../../components/organisms/Column'
 import { Loader } from '../../components/atoms/Loader'
 
 import { IBoardElements } from '../../utils/types/BoardType'
-
 import './style.scss'
-import { useModal } from '../../hooks/modal.hook'
 
 export const BoardPage = () => {
 	const { isLoading, request, error, clearError } = useRequest()
@@ -64,8 +63,8 @@ export const BoardPage = () => {
 				</div>
 			</div>
 			<div className='main-body__card-wrapper'>
-				{CurrentBoard?.cards.map(column => (
-					<Column cardName={column.cardName} tasks={column.tasks} key={column._id} />
+				{CurrentBoard?.columns.map(column => (
+					<Column ColumnTitle={column.ColumnTitle} cards={column.cards} key={column._id} />
 				))}
 			</div>
 		</div>
