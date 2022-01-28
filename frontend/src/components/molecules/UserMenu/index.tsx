@@ -1,15 +1,20 @@
 import React, { useContext, useRef } from 'react'
-import { Avatar } from '../../atoms/Avatar'
+import { useNavigate } from 'react-router-dom'
 import { useToasty } from '../../../hooks/toast.hook'
-import './style.scss'
-import { useRequest } from '../../../hooks/request.hook'
+
+import { Avatar } from '../../atoms/Avatar'
+
+import { SCREENS } from '../../../routes/endpoints'
 import { AuthContext } from '../../../utils/context/AuthContext'
+
+import './style.scss'
 
 export const UserMenu = () => {
 	const IRef = useRef<HTMLInputElement>(null)
 
 	const Auth = useContext(AuthContext)
 	const notification = useToasty()
+	const navigate = useNavigate()
 
 	const CopyHandler = () => {
 		IRef?.current?.select()
@@ -59,7 +64,13 @@ export const UserMenu = () => {
 				</div>
 			</div>
 			<div className='user-menu__footer'>
-				<button className='user-menu__logout' onClick={Auth.logout}>
+				<button
+					className='user-menu__logout'
+					onClick={() => {
+						Auth.logout()
+						navigate(SCREENS.SCREENS__MAIN)
+					}}
+				>
 					<svg
 						width='18'
 						height='18'
