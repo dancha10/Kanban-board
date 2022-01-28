@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { SCREENS } from '../routes/endpoints'
 
 const storageName = 'Token'
 
 export const useAuth = () => {
+	const navigate = useNavigate()
 	const [token, setToken] = useState<string>('')
 	const [isReady, setReady] = useState(false)
 
@@ -14,6 +18,7 @@ export const useAuth = () => {
 	const logout = useCallback(() => {
 		setToken('')
 		localStorage.removeItem(storageName)
+		navigate(SCREENS.SCREENS__MAIN)
 	}, [])
 
 	const refresh = useCallback(async () => {

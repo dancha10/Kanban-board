@@ -9,18 +9,19 @@ export interface InputType {
 	type?: 'text' | 'password'
 	placeholder: string
 	isError?: boolean
-	id?: Path<ISignUpInputs>
-	register?: UseFormRegister<ISignUpInputs>
-	inputRef?: React.RefObject<HTMLInputElement>
 }
 
-export const BlueInput: React.FC<InputType> = ({
+export interface IBlueInput extends InputType {
+	id: Path<ISignUpInputs>
+	register: UseFormRegister<ISignUpInputs>
+}
+
+export const BlueInput: React.FC<IBlueInput> = ({
 	type = 'text',
 	placeholder,
 	isError = false,
 	id,
 	register,
-	inputRef,
 }) => {
 	const [isActivity, setActivity] = useState<boolean>(false)
 	const isActive = (value: string) => (value !== '' ? setActivity(true) : setActivity(false))
@@ -28,7 +29,7 @@ export const BlueInput: React.FC<InputType> = ({
 	return (
 		<div className={classList('input-wrapper', { 'input-wrapper--error': isError })}>
 			<input
-				{...(register ? register(id!) : '')}
+				{...register(id)}
 				type={type}
 				placeholder={placeholder}
 				onChange={event => isActive(event.target.value)}
@@ -38,7 +39,6 @@ export const BlueInput: React.FC<InputType> = ({
 					{ 'input--active': isActivity }
 				)}
 				id={id}
-				ref={inputRef}
 			/>
 		</div>
 	)

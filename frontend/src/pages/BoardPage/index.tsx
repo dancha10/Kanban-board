@@ -10,13 +10,15 @@ import { Loader } from '../../components/atoms/Loader'
 
 import { IBoardElements } from '../../utils/types/BoardType'
 import './style.scss'
+import { CreateCard } from '../../components/atoms/CreateCard'
+import { UserMenu } from '../../components/molecules/UserMenu'
 
 export const BoardPage = () => {
 	const { isLoading, request, error, clearError } = useRequest()
 	const [CurrentBoard, setCurrentBoard] = useState<IBoardElements>()
 	const location = useLocation()
 
-	const { ModalInvite, setModalInvite } = useModal()
+	const { ModalInvite, setModalInvite, ModalCreateColumn, setModalCreateColumn } = useModal()
 
 	useEffect(() => {
 		console.log('Board-Page')
@@ -37,15 +39,13 @@ export const BoardPage = () => {
 
 	return (
 		<div className='main-body'>
-			<button onClick={() => setModalInvite(true)}>Open</button>
 			{ModalInvite}
-
 			<div className='main-body__header'>
 				<h1 className='main-body__title'>{CurrentBoard?.title}</h1>
 				<div className='main-body__menu-list'>
 					<UserList UserList={CurrentBoard?.users} key={CurrentBoard?._id} />
 					<div className='main-body__button-area'>
-						<MainButton text='+ Invite' />
+						<MainButton text='+ Invite' onClick={() => setModalInvite(true)} />
 						<button className='main-body__button-menu'>
 							<svg
 								width='24'
@@ -64,8 +64,15 @@ export const BoardPage = () => {
 			</div>
 			<div className='main-body__card-wrapper'>
 				{CurrentBoard?.columns.map(column => (
-					<Column ColumnTitle={column.ColumnTitle} cards={column.cards} key={column._id} />
+					<Column ColumnTitle={column?.ColumnTitle} cards={column?.cards} key={column?._id} />
 				))}
+				<CreateCard
+					type='column'
+					text='+ Add new column'
+					onClick={() => setModalCreateColumn(true)}
+				/>
+				<UserMenu />
+				{ModalCreateColumn}
 			</div>
 		</div>
 	)

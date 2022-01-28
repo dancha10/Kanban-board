@@ -1,20 +1,22 @@
 import React, { useRef, useState, useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useRequest } from './request.hook'
 import { useToasty } from './toast.hook'
 
 import { OpacityInput } from '../components/atoms/OpacityInput'
 import { MainButton } from '../components/atoms/MainButton'
 import { ModalWindow } from '../components/atoms/ModalWindow'
-import { BlueInput } from '../components/atoms/BlueInput'
 
 export const useModal = () => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const { request } = useRequest()
 	const notification = useToasty()
+	const location = useLocation()
 
 	// list modals
 	const [isModalCreateBoard, setModalCreateBoard] = useState(false)
 	const [isModalInvite, setModalInvite] = useState(false)
+	const [isModalCreateColumn, setModalCreateColumn] = useState(false)
 
 	// Modal Create Board
 	const CreateBoardHandler = async () => {
@@ -60,6 +62,8 @@ export const useModal = () => {
 				{},
 				true
 			)
+			inputRef!.current!.value = ''
+			setModalInvite(false)
 			console.log(data)
 		} catch (err) {
 			if (err instanceof Error) notification(err.message)
@@ -71,12 +75,54 @@ export const useModal = () => {
 			<ModalWindow modalActive={isModalInvite} setModalActive={setModalInvite} isButtonClose>
 				<div className='modal-wrapper' role='menu'>
 					<h3>Invite friend</h3>
-					<BlueInput placeholder='Enter identifier' inputRef={inputRef} />
+					<OpacityInput maxLength={6} placeholder='Enter identifier' inputRef={inputRef} />
 					<MainButton text='Invite' onClick={InviteHandler} />
 				</div>
 			</ModalWindow>
 		)
 	}, [isModalInvite, setModalInvite])
 
-	return { ModalCreateBoard, setModalCreateBoard, ModalInvite, setModalInvite }
+	// Modal create column
+
+	const CreateColumnHandler = async () => {
+		try {
+			const data = await request(
+				'/api/column/create',
+				'POST',
+				{ BID: location.pathname.split('/b/')[1], title: inputRef?.current?.value },
+				{},
+				true
+			)
+			inputRef!.current!.value = ''
+			setModalCreateColumn(false)
+			console.log(data)
+		} catch (err) {
+			if (err instanceof Error) notification(err.message)
+		}
+	}
+
+	const ModalCreateColumn = useMemo(() => {
+		return (
+			<ModalWindow
+				modalActive={isModalCreateColumn}
+				setModalActive={setModalCreateColumn}
+				isButtonClose
+			>
+				<div className='modal-wrapper' role='menu'>
+					<h3>Create new column</h3>
+					<OpacityInput maxLength={25} placeholder='Enter title column' inputRef={inputRef} />
+					<MainButton text='Create' onClick={CreateColumnHandler} />
+				</div>
+			</ModalWindow>
+		)
+	}, [isModalCreateColumn, setModalCreateColumn])
+
+	return {
+		ModalCreateBoard,
+		setModalCreateBoard,
+		ModalInvite,
+		setModalInvite,
+		ModalCreateColumn,
+		setModalCreateColumn,
+	}
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import './style.scss'
-import { BlueInput, InputType } from '../BlueInput'
+import { BlueInput, IBlueInput } from '../BlueInput'
 
-interface FormFieldType extends InputType {
+interface FormFieldType extends IBlueInput {
 	label: string
 	htmlFor?: string
 }

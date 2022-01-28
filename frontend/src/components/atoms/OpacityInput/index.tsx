@@ -5,6 +5,7 @@ import './style.scss'
 
 interface OpacityInputType extends InputType {
 	maxLength: number
+	inputRef?: React.RefObject<HTMLInputElement>
 }
 
 export const OpacityInput: React.FC<OpacityInputType> = ({
