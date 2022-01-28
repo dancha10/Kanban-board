@@ -4,16 +4,20 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { useToasty } from '../../../hooks/toast.hook'
+import { useRequest } from '../../../hooks/request.hook'
+
 import { FormField } from '../../atoms/FormField'
 import { Border } from '../../atoms/Border'
 import { ButtonAuth } from '../../atoms/ButtonAuth'
+import { Loader } from '../../atoms/Loader'
 import { SCREENS } from '../../../routes/endpoints'
 
-import './style.scss'
 import { ISignUpInputs } from '../SignUpForm'
+
+import './style.scss'
+
 import { AuthContext } from '../../../utils/context/AuthContext'
-import { useToasty } from '../../../hooks/toast.hook'
-import { useRequest } from '../../../hooks/request.hook'
 
 export interface IAuthInput {
 	email: string
@@ -50,12 +54,9 @@ export const AuthForm: React.FC = () => {
 	})
 
 	const LoginHandler: SubmitHandler<IAuthInput> = async data => {
-		console.log(data)
 		const req = await request('/api/auth/login', 'POST', data)
 		auth.login(req.accessToken)
-		console.log(req.status)
-
-		navigate(SCREENS.SCREENS__MAIN) // TODO Delete !!!
+		if (req.accessToken) navigate(SCREENS.SCREENS__MAIN)
 	}
 
 	useEffect(() => {
@@ -92,7 +93,7 @@ export const AuthForm: React.FC = () => {
 						id='password'
 						isError={!!errors.password}
 						register={register}
-						type='text'
+						type='password'
 					/>
 					{errors.password?.message && (
 						<p className='account-form__error-message'>{errors.password?.message}</p>
@@ -105,6 +106,7 @@ export const AuthForm: React.FC = () => {
 				{/* TODO Change to on /registration */}
 				Don’t have an account? Register now
 			</NavLink>
+			{isLoading && <Loader isFull />}
 		</section>
 	)
 }

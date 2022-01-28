@@ -4,16 +4,20 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { useRequest } from '../../../hooks/request.hook'
+import { useToasty } from '../../../hooks/toast.hook'
+
 import { FormField } from '../../atoms/FormField'
 import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { Border } from '../../atoms/Border'
+import { Loader } from '../../atoms/Loader'
 import { SCREENS } from '../../../routes/endpoints'
 
-import '../AuthForm/style.scss'
 import { IAuthInput } from '../AuthForm'
-import { useRequest } from '../../../hooks/request.hook'
-import { useToasty } from '../../../hooks/toast.hook'
+
 import { AuthContext } from '../../../utils/context/AuthContext'
+
+import '../AuthForm/style.scss'
 
 export interface ISignUpInputs extends IAuthInput {
 	nickname: string
@@ -69,7 +73,7 @@ export const SignUpForm: React.FC = () => {
 		console.log(error)
 		const req = await request('/api/auth/signup', 'POST', data)
 		auth.login(req.accessToken)
-		navigate(SCREENS.SCREENS__MAIN) // TODO Delete
+		if (req.accessToken) navigate(SCREENS.SCREENS__MAIN)
 	}
 
 	return (
@@ -136,6 +140,7 @@ export const SignUpForm: React.FC = () => {
 			<NavLink to={`${SCREENS.SCREENS__LOGIN}`} className='account-form__redirect'>
 				Already have an account? Log in
 			</NavLink>
+			{isLoading && <Loader isFull />}
 		</section>
 	)
 }
