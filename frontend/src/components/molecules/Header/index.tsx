@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { BellNotification } from '../../atoms/BellNotification'
 import { Avatar } from '../../atoms/Avatar'
@@ -6,7 +6,12 @@ import { Avatar } from '../../atoms/Avatar'
 import { SCREENS } from '../../../routes/endpoints'
 import './style.scss'
 
+import { StoreContext } from '../../../utils/context/StoreContext'
+import { UserMenu } from '../UserMenu'
+import { useOutside } from '../../../hooks/outside.hook'
+
 export const Header = () => {
+	const { PopupStore } = useContext(StoreContext)
 	return (
 		<div className='header'>
 			<div className='header__container'>
@@ -57,7 +62,13 @@ export const Header = () => {
 						<BellNotification notificationCount={2} />
 					</div>
 					<div className='header__avatar'>
-						<Avatar type='icon' nickname='Bublick' avatar={undefined} />
+						<Avatar
+							type='icon'
+							nickname='Bublick'
+							avatar={undefined}
+							handler={() => PopupStore.setActiveUserMenu(true)}
+						/>
+						<UserMenu />
 					</div>
 				</div>
 			</div>

@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react'
 import { ToastContainer } from 'react-toastify'
 
+import PopupStore from './store/PopupStor'
+
 import { useRouter } from './hooks/router.hook'
 import { useAuth } from './hooks/auth.hook'
 import { AuthContext } from './utils/context/AuthContext'
+import { StoreContext } from './utils/context/StoreContext'
 
 import { Loader } from './components/atoms/Loader'
 
@@ -24,12 +27,18 @@ export function App() {
 		}
 	}, [])
 
+	const StoreProps = useMemo(() => {
+		return { PopupStore }
+	}, [])
+
 	if (!isReady) return <Loader />
 
 	return (
 		<AuthContext.Provider value={ProviderProps}>
-			{Router}
-			<ToastContainer />
+			<StoreContext.Provider value={StoreProps}>
+				{Router}
+				<ToastContainer />
+			</StoreContext.Provider>
 		</AuthContext.Provider>
 	)
 }

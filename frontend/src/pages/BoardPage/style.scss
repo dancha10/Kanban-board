@@ -15,22 +15,21 @@
   }
 
   &__button-area {
+    position: relative;
     display: flex;
     align-items: center;
 
-    & button {
-      margin-left: 15px;
+    & .main-button {
+      margin: 0 15px;
 
-      &:not(:last-child) {
-        width: 140px;
-        height: 30px;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 21px;
+      width: 140px;
+      height: 30px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 21px;
 
-        & svg {
-          display: none;
-        }
+      & svg {
+        display: none;
       }
     }
 
@@ -42,6 +41,7 @@
       transition: all 0.3s linear;
     }
 
+    position: relative;
     transition: all .3s ease;
     display: flex;
     align-items: center;
@@ -66,6 +66,7 @@
 
     &:focus {
       background: #2DA6F8;
+      border: 1px solid #2DA6F8;
       color: white;
 
       svg path {

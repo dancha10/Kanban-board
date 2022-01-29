@@ -1,0 +1,58 @@
+.board-menu {
+  position: absolute;
+  width: 194px;
+  height: 124px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  top: 40px;
+  right: 0;
+  z-index: 50;
+
+  &__container {
+    position: relative;
+    padding: 15px 10px;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 18px;
+    color: #213864;
+  }
+
+  &__wrapper {
+    margin-top: 15px;
+  }
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: 14px;
+    }
+  }
+  &__choose-color {
+    width: 50px;
+    height: 20px;
+    border-radius: 3px;
+
+    svg {
+      fill: #FFFFFF;
+    }
+  }
+}
+
+.board-menu-transition-enter {
+  opacity: 0;
+}
+.board-menu-transition-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.board-menu-transition-exit {
+  opacity: 1;
+}
+.board-menu-transition-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}

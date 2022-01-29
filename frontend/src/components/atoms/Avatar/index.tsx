@@ -5,11 +5,12 @@ export interface IAvatar {
 	type: 'icon' | 'setting'
 	avatar?: string
 	nickname: string
+	handler?: () => void
 }
 
-export const Avatar: React.FC<IAvatar> = ({ type, avatar, nickname }) => {
+export const Avatar: React.FC<IAvatar> = ({ type, avatar, nickname, handler }) => {
 	return (
-		<button className={`avatar ${!avatar ? 'avatar-name' : 'avatar-img'}`}>
+		<button className={`avatar ${!avatar ? 'avatar-name' : 'avatar-img'}`} onClick={handler}>
 			{!avatar ? nickname.split('')[0] : <img src={avatar} alt='Profile' />}
 			{type === 'setting' && (
 				<div className='overlay'>

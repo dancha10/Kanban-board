@@ -41,7 +41,6 @@ export const useRequest = () => {
 				}
 
 				if (isAuthorization && localStorage.getItem('Token')) {
-					console.log('isAuth')
 					headers.Authorization = `Bearer ${localStorage.getItem('Token')}`
 				}
 

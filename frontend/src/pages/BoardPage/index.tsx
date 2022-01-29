@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRequest } from '../../hooks/request.hook'
 import { useModal } from '../../hooks/modal.hook'
 
+import { CreateCard } from '../../components/atoms/CreateCard'
 import { UserList } from '../../components/molecules/UserList'
 import { MainButton } from '../../components/atoms/MainButton'
 import { Column } from '../../components/organisms/Column'
@@ -10,8 +11,9 @@ import { Loader } from '../../components/atoms/Loader'
 
 import { IBoardElements } from '../../utils/types/BoardType'
 import './style.scss'
-import { CreateCard } from '../../components/atoms/CreateCard'
-import { UserMenu } from '../../components/molecules/UserMenu'
+
+import { StoreContext } from '../../utils/context/StoreContext'
+import { BoardMenu } from '../../components/atoms/BoardMenu'
 
 export const BoardPage = () => {
 	const { isLoading, request, error, clearError } = useRequest()
@@ -19,6 +21,8 @@ export const BoardPage = () => {
 	const location = useLocation()
 
 	const { ModalInvite, setModalInvite, ModalCreateColumn, setModalCreateColumn } = useModal()
+
+	const { PopupStore } = useContext(StoreContext)
 
 	useEffect(() => {
 		console.log('Board-Page')
@@ -46,7 +50,10 @@ export const BoardPage = () => {
 					<UserList UserList={CurrentBoard?.users} key={CurrentBoard?._id} />
 					<div className='main-body__button-area'>
 						<MainButton text='+ Invite' onClick={() => setModalInvite(true)} />
-						<button className='main-body__button-menu'>
+						<button
+							className='main-body__button-menu'
+							onClick={() => PopupStore.setActiveBoardMenu(true)}
+						>
 							<svg
 								width='24'
 								height='25'
@@ -59,6 +66,7 @@ export const BoardPage = () => {
 								<path d='M5 17.355H19' stroke='#213864' />
 							</svg>
 						</button>
+						<BoardMenu />
 					</div>
 				</div>
 			</div>
@@ -71,7 +79,6 @@ export const BoardPage = () => {
 					text='+ Add new column'
 					onClick={() => setModalCreateColumn(true)}
 				/>
-				<UserMenu />
 				{ModalCreateColumn}
 			</div>
 		</div>
