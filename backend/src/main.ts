@@ -15,6 +15,7 @@ async function start() {
   app.use(helmet())
   app.enableCors({
     origin: process.env.CORS,
+    credentials: true,
   })
   app.use(cookieParser())
 
