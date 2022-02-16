@@ -31,13 +31,11 @@ export class BoardController {
     return this.boardService.getAllMainInfoBoards(request.user)
   }
 
-  /*
-    @UseGuards(JwtAuthGuard)
-    @Get('/:id')
-    getBoardById(@Param('id') id: string): Promise<Board> {
-      return this.boardService.getBoardById(id)
-    }
-   */
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  getBoardById(@Param('id') id: string): Promise<Board> {
+    return this.boardService.getBoardById(id)
+  }
 
   @ApiOperation({ summary: 'Create new board' })
   @UsePipes(ValidationPipe)

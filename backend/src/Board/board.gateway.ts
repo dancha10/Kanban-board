@@ -15,7 +15,12 @@ import { BoardService } from './board.service'
 import { JwtWsGuard } from './Guard/Jwt-ws.guard'
 import { Board } from '../Models/board.model'
 
-@WebSocketGateway(228)
+@WebSocketGateway(228, {
+  cors: {
+    origin: process.env.CORS,
+    credentials: true,
+  },
+})
 export class BoardGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -45,13 +50,14 @@ export class BoardGateway
     return { event: 'getAllBoards', data: boards }
   }*/
 
-  @UseGuards(JwtWsGuard)
+  //  @UseGuards(JwtWsGuard)
   @SubscribeMessage('getBoardById')
   async getBoardById(
     @MessageBody() id: string,
     @ConnectedSocket() client: Socket,
   ): Promise<WsResponse<Board>> {
     client.join(id)
+    console.log(id)
     const board = await this.boardService.getBoardById(id)
     return { event: 'getBoardById', data: board }
   }
