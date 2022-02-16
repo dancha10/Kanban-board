@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRequest } from '../../hooks/request.hook'
 import { useModal } from '../../hooks/modal.hook'
@@ -8,21 +8,21 @@ import { UserList } from '../../components/molecules/UserList'
 import { MainButton } from '../../components/atoms/MainButton'
 import { Column } from '../../components/organisms/Column'
 import { Loader } from '../../components/atoms/Loader'
+import { BoardMenu } from '../../components/atoms/BoardMenu'
+import { ModalTask } from '../../components/molecules/ModalTask'
 
-import { IBoardElements } from '../../utils/types/BoardType'
+import { IBoard } from '../../utils/types/board.type'
+
 import './style.scss'
 
-import { StoreContext } from '../../utils/context/StoreContext'
-import { BoardMenu } from '../../components/atoms/BoardMenu'
+import { boardMenuActive } from '../../store/popup.store'
 
 export const BoardPage = () => {
 	const { isLoading, request, error, clearError } = useRequest()
-	const [CurrentBoard, setCurrentBoard] = useState<IBoardElements>()
+	const [CurrentBoard, setCurrentBoard] = useState<IBoard>()
 	const location = useLocation()
 
 	const { ModalInvite, setModalInvite, ModalCreateColumn, setModalCreateColumn } = useModal()
-
-	const { PopupStore } = useContext(StoreContext)
 
 	useEffect(() => {
 		console.log('Board-Page')
@@ -50,10 +50,7 @@ export const BoardPage = () => {
 					<UserList UserList={CurrentBoard?.users} key={CurrentBoard?._id} />
 					<div className='main-body__button-area'>
 						<MainButton text='+ Invite' onClick={() => setModalInvite(true)} />
-						<button
-							className='main-body__button-menu'
-							onClick={() => PopupStore.setActiveBoardMenu(true)}
-						>
+						<button className='main-body__button-menu' onClick={() => boardMenuActive}>
 							<svg
 								width='24'
 								height='25'
@@ -72,7 +69,7 @@ export const BoardPage = () => {
 			</div>
 			<div className='main-body__card-wrapper'>
 				{CurrentBoard?.columns.map(column => (
-					<Column ColumnTitle={column?.ColumnTitle} cards={column?.cards} key={column?._id} />
+					<Column title={column?.title} cards={column?.cards} key={column?._id} />
 				))}
 				<CreateCard
 					type='column'
@@ -80,6 +77,7 @@ export const BoardPage = () => {
 					onClick={() => setModalCreateColumn(true)}
 				/>
 				{ModalCreateColumn}
+				<ModalTask />
 			</div>
 		</div>
 	)

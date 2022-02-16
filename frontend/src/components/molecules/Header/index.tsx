@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { BellNotification } from '../../atoms/BellNotification'
 import { Avatar } from '../../atoms/Avatar'
@@ -6,12 +6,10 @@ import { Avatar } from '../../atoms/Avatar'
 import { SCREENS } from '../../../routes/endpoints'
 import './style.scss'
 
-import { StoreContext } from '../../../utils/context/StoreContext'
 import { UserMenu } from '../UserMenu'
-import { useOutside } from '../../../hooks/outside.hook'
+import { userMenuActivate } from '../../../store/popup.store'
 
 export const Header = () => {
-	const { PopupStore } = useContext(StoreContext)
 	return (
 		<div className='header'>
 			<div className='header__container'>
@@ -66,7 +64,7 @@ export const Header = () => {
 							type='icon'
 							nickname='Bublick'
 							avatar={undefined}
-							handler={() => PopupStore.setActiveUserMenu(true)}
+							handler={userMenuActivate}
 						/>
 						<UserMenu />
 					</div>

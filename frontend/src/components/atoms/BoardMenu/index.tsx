@@ -1,38 +1,40 @@
-import React, { useContext, useRef, useState } from 'react'
-import { observer } from 'mobx-react-lite'
+import React, { useRef, useState } from 'react'
+import { useStore } from 'effector-react'
 import { CSSTransition } from 'react-transition-group'
-import { StoreContext } from '../../../utils/context/StoreContext'
 
-import './style.scss'
 import { useOutside } from '../../../hooks/outside.hook'
 
-export const BoardMenu = observer(() => {
-	const { PopupStore } = useContext(StoreContext)
+import { $isBoardMenuActive, boardMenuInactive } from '../../../store/popup.store'
+import './style.scss'
+
+export const BoardMenu = () => {
 	const [color, setColor] = useState('')
 	const refNode = useRef<HTMLDivElement>(null)
 
-	const { ref } = useOutside(PopupStore.setActiveBoardMenu)
+	// const { ref } = useOutside(PopupStore.setActiveBoardMenu)
 
-	const ColorHandler = (event: any) => {
-		setColor(event.target.id)
+	const ColorHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setColor((event.target as HTMLButtonElement).id)
 		// TODO fetch change color
 	}
+
+	const isBoardMenuActive = useStore($isBoardMenuActive)
+
 	return (
 		<CSSTransition
-			in={PopupStore.isBoardMenuActive}
+			in={isBoardMenuActive}
 			timeout={200}
 			classNames='board-menu-transition'
 			unmountOnExit
 			nodeRef={refNode}
 		>
 			<div className='board-menu' ref={refNode}>
-				<div className='board-menu__container' ref={ref}>
+				<div className='board-menu__container'>
+					{' '}
+					{/* ref={ref}> */}
 					<div className='board-menu__header'>
 						<div className='board-menu__title'>Menu</div>
-						<button
-							className='modal__close'
-							onClick={() => PopupStore.setActiveBoardMenu(false)}
-						>
+						<button className='modal__close' onClick={() => boardMenuInactive}>
 							<svg
 								width='24'
 								height='24'
@@ -163,4 +165,4 @@ export const BoardMenu = observer(() => {
 			</div>
 		</CSSTransition>
 	)
-})
+}

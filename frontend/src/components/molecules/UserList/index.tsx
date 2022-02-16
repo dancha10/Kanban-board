@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar } from '../../atoms/Avatar'
-import { IUsers } from '../../../utils/types/BoardType'
+import { IUsers } from '../../../utils/types/board.type'
 
 import './style.scss'
 

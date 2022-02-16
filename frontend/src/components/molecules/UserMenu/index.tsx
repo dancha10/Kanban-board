@@ -1,30 +1,27 @@
 import React, { useContext, useRef } from 'react'
-import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 
+import { useStore } from 'effector-react'
 import { useToasty } from '../../../hooks/toast.hook'
 import { useOutside } from '../../../hooks/outside.hook'
 
 import { Avatar } from '../../atoms/Avatar'
 
-import { AuthContext } from '../../../utils/context/AuthContext'
-import { StoreContext } from '../../../utils/context/StoreContext'
-
 import { SCREENS } from '../../../routes/endpoints'
 
 import './style.scss'
+import { logoutClicked } from '../../../store/auth.store'
+import { $isUserMenu, userMenuActivate, userMenuInactivate } from '../../../store/popup.store'
 
-export const UserMenu: React.FC = observer(() => {
+export const UserMenu: React.FC = () => {
 	const IRef = useRef<HTMLInputElement>(null)
 	const IRefTransition = useRef<HTMLDivElement>(null)
 
-	const Auth = useContext(AuthContext)
-	const { PopupStore } = useContext(StoreContext)
 	const notification = useToasty()
 	const navigate = useNavigate()
 
-	const { ref } = useOutside(PopupStore.setActiveUserMenu)
+	// const { ref } = useOutside(userMenuActivate)
 
 	const CopyHandler = () => {
 		IRef?.current?.select()
@@ -33,16 +30,18 @@ export const UserMenu: React.FC = observer(() => {
 		notification('ID copied', 'success')
 	}
 
+	const isUserMenu = useStore($isUserMenu)
+
 	return (
 		<CSSTransition
-			in={PopupStore.isUserMenuActive}
+			in={isUserMenu}
 			classNames='menu-user'
 			timeout={200}
 			unmountOnExit
 			nodeRef={IRefTransition}
 		>
 			<div className='user-menu' ref={IRefTransition}>
-				<div className='user-menu__container' ref={ref}>
+				<div className='user-menu__container'>
 					<div className='user-menu__header'>
 						<Avatar type='setting' nickname='Nickname' avatar={undefined} />
 						<span className='user-menu__nickname'>Nick</span>
@@ -85,8 +84,9 @@ export const UserMenu: React.FC = observer(() => {
 						<button
 							className='user-menu__logout'
 							onClick={() => {
-								Auth.logout()
+								logoutClicked()
 								navigate(SCREENS.SCREENS__LOGIN)
+								userMenuInactivate()
 							}}
 						>
 							<svg
@@ -112,4 +112,4 @@ export const UserMenu: React.FC = observer(() => {
 			</div>
 		</CSSTransition>
 	)
-})
+}

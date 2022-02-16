@@ -1,33 +1,31 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useStore } from 'effector-react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-import { useRequest } from '../../../hooks/request.hook'
-import { useToasty } from '../../../hooks/toast.hook'
 
 import { FormField } from '../../atoms/FormField'
 import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { Border } from '../../atoms/Border'
 import { Loader } from '../../atoms/Loader'
+
+import { useToasty } from '../../../hooks/toast.hook'
+
 import { SCREENS } from '../../../routes/endpoints'
+import { ISignUpPayload } from '../../../utils/types/auth.type'
 
-import { IAuthInput } from '../AuthForm'
-
-import { AuthContext } from '../../../utils/context/AuthContext'
+import { $accessToken, onSubmittedSignUp, signUpFx } from '../../../store/auth.store'
+import { $ErrorStore, clearError } from '../../../store/Error/error.store'
 
 import '../AuthForm/style.scss'
 
-export interface ISignUpInputs extends IAuthInput {
-	nickname: string
-	password_confirm: string
-}
-
 export const SignUpForm: React.FC = () => {
-	const auth = useContext(AuthContext)
+	const token = useStore($accessToken)
+	const isLoading = useStore(signUpFx.pending)
+	const error = useStore($ErrorStore)
+
 	const notification = useToasty()
-	const { isLoading, request, error, clearError } = useRequest()
 	const navigate = useNavigate()
 
 	const schema = yup
@@ -47,7 +45,7 @@ export const SignUpForm: React.FC = () => {
 				.string()
 				.min(4, 'Minimum password length 3 characters')
 				.required('This field is required'),
-			password_confirm: yup
+			passwordConfirm: yup
 				.string()
 				.min(4, 'Minimum password length 3 characters')
 				.required('This field is required'),
@@ -58,7 +56,7 @@ export const SignUpForm: React.FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<ISignUpInputs>({
+	} = useForm<ISignUpPayload>({
 		resolver: yupResolver(schema),
 	})
 
@@ -69,11 +67,9 @@ export const SignUpForm: React.FC = () => {
 		clearError()
 	}, [error, clearError])
 
-	const SignUpHandler: SubmitHandler<ISignUpInputs> = async data => {
-		console.log(error)
-		const req = await request('/api/auth/signup', 'POST', data)
-		auth.login(req.accessToken)
-		if (req.accessToken) navigate(SCREENS.SCREENS__MAIN)
+	const SignUpHandler: SubmitHandler<ISignUpPayload> = async data => {
+		onSubmittedSignUp(data)
+		if (token && !isLoading) navigate(SCREENS.SCREENS__MAIN)
 	}
 
 	return (
@@ -125,13 +121,13 @@ export const SignUpForm: React.FC = () => {
 					<FormField
 						label='Confirm the password'
 						placeholder='Confirm the password'
-						id='password_confirm'
-						isError={!!errors.password_confirm}
+						id='passwordConfirm'
+						isError={!!errors.passwordConfirm}
 						register={register}
 						type='password'
 					/>
-					{errors.password_confirm?.message && (
-						<p className='account-form__error-message'>{errors.password_confirm?.message}</p>
+					{errors.passwordConfirm?.message && (
+						<p className='account-form__error-message'>{errors.passwordConfirm?.message}</p>
 					)}
 				</div>
 				<ButtonAuth text='Registration' onClick={() => {}} />
@@ -140,7 +136,7 @@ export const SignUpForm: React.FC = () => {
 			<NavLink to={`${SCREENS.SCREENS__LOGIN}`} className='account-form__redirect'>
 				Already have an account? Log in
 			</NavLink>
-			{isLoading && <Loader isFull />}
+			{isLoading && <Loader />}
 		</section>
 	)
 }

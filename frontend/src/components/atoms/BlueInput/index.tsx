@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import classList from 'classnames'
-import './style.scss'
 import { Path, UseFormRegister } from 'react-hook-form'
-import { ISignUpInputs } from '../../organisms/SignUpForm'
-import { IAuthInput } from '../../organisms/AuthForm'
+import { ISignUpPayload } from '../../../utils/types/auth.type'
+import './style.scss'
 
 export interface InputType {
 	type?: 'text' | 'password'
@@ -12,8 +11,8 @@ export interface InputType {
 }
 
 export interface IBlueInput extends InputType {
-	id: Path<ISignUpInputs>
-	register: UseFormRegister<ISignUpInputs>
+	id: Path<ISignUpPayload>
+	register: UseFormRegister<ISignUpPayload>
 }
 
 export const BlueInput: React.FC<IBlueInput> = ({

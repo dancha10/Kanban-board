@@ -1,33 +1,30 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useStore } from 'effector-react'
+
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { useToasty } from '../../../hooks/toast.hook'
-import { useRequest } from '../../../hooks/request.hook'
-
+import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { FormField } from '../../atoms/FormField'
 import { Border } from '../../atoms/Border'
-import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { Loader } from '../../atoms/Loader'
-import { SCREENS } from '../../../routes/endpoints'
 
-import { ISignUpInputs } from '../SignUpForm'
+import { useToasty } from '../../../hooks/toast.hook'
+
+import { SCREENS } from '../../../routes/endpoints'
+import { IAuthPayload, ISignUpPayload } from '../../../utils/types/auth.type'
 
 import './style.scss'
-
-import { AuthContext } from '../../../utils/context/AuthContext'
-
-export interface IAuthInput {
-	email: string
-	password: string
-}
+import { $ErrorStore, clearError } from '../../../store/Error/error.store'
+import { authorizationFx, onSubmittedLogin } from '../../../store/auth.store'
 
 export const AuthForm: React.FC = () => {
-	const auth = useContext(AuthContext)
+	const isLoading = useStore(authorizationFx.pending)
+	const error = useStore($ErrorStore)
+
 	const notification = useToasty()
-	const { isLoading, request, error, clearError } = useRequest()
 	const navigate = useNavigate()
 
 	const schema = yup
@@ -49,14 +46,12 @@ export const AuthForm: React.FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<ISignUpInputs>({
+	} = useForm<ISignUpPayload>({
 		resolver: yupResolver(schema),
 	})
 
-	const LoginHandler: SubmitHandler<IAuthInput> = async data => {
-		const req = await request('/api/auth/login', 'POST', data)
-		auth.login(req.accessToken)
-		if (req.accessToken) navigate(SCREENS.SCREENS__MAIN)
+	const LoginHandler: SubmitHandler<IAuthPayload> = async data => {
+		onSubmittedLogin(data)
 	}
 
 	useEffect(() => {
@@ -64,6 +59,7 @@ export const AuthForm: React.FC = () => {
 			notification(error)
 		}
 		clearError()
+		if (!error) navigate(SCREENS.SCREENS__MAIN)
 	}, [error, clearError])
 
 	return (

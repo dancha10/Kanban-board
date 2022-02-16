@@ -2,14 +2,13 @@ import React, { useRef } from 'react'
 import ReactDOM from 'react-dom'
 
 import { CSSTransition } from 'react-transition-group'
-
 import ClassList from 'classnames'
 
 import './style.scss'
 
 interface IModalWindow {
 	modalActive: boolean
-	setModalActive: React.Dispatch<React.SetStateAction<boolean>>
+	setModalActive: (state: boolean) => void | React.Dispatch<React.SetStateAction<boolean>> | any
 	isButtonClose: boolean
 }
 
