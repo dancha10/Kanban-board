@@ -23,16 +23,21 @@
   "rules": {
     "semi": 0,
     "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": 0,
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
     "react/button-has-type": "off",
-    "arrow-body-style": "off",
-    "no-plusplus": 0,
+    "arrow-body-style": 0,
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "no-shadow": "off",
-    "array-callback-return": 0,
+    "no-return-await": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,
-    "react/jsx-props-no-spreading": 0,
     "no-use-before-define": 0,
     "no-undef": 0,
     "no-underscore-dangle": 0,
