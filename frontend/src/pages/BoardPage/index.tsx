@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useStore } from 'effector-react'
 import { useLocation } from 'react-router-dom'
-import { useRequest } from '../../hooks/request.hook'
 import { useModal } from '../../hooks/modal.hook'
-
 import { CreateCard } from '../../components/atoms/CreateCard'
 import { UserList } from '../../components/molecules/UserList'
 import { MainButton } from '../../components/atoms/MainButton'
@@ -10,34 +9,25 @@ import { Column } from '../../components/organisms/Column'
 import { Loader } from '../../components/atoms/Loader'
 import { BoardMenu } from '../../components/atoms/BoardMenu'
 import { ModalTask } from '../../components/molecules/ModalTask'
-
-import { IBoard } from '../../utils/types/board.type'
-
+import { boardMenuActivatorClicked } from '../../store/popup.store'
+import { $currentBoard, getCurrentBoardByIdFx, sentBoardId } from '../../store/board.store'
 import './style.scss'
 
-import { boardMenuActive } from '../../store/popup.store'
-
 export const BoardPage = () => {
-	const { isLoading, request, error, clearError } = useRequest()
-	const [CurrentBoard, setCurrentBoard] = useState<IBoard>()
 	const location = useLocation()
 
 	const { ModalInvite, setModalInvite, ModalCreateColumn, setModalCreateColumn } = useModal()
 
 	useEffect(() => {
-		console.log('Board-Page')
-		;(async function GetBoardID() {
-			const data = await request(
-				`/api/board/${location.pathname.split('/b/')[1]}`,
-				'GET',
-				null,
-				{},
-				true
-			)
-			setCurrentBoard(data)
-			console.log(data)
-		})()
+		sentBoardId(location.pathname.split('/b/')[1])
 	}, [location])
+
+	const currentBoard = useStore($currentBoard)
+	const isLoading = useStore(getCurrentBoardByIdFx.pending)
+
+	useEffect(() => {
+		console.log(currentBoard)
+	}, [currentBoard])
 
 	if (isLoading) return <Loader />
 
@@ -45,12 +35,15 @@ export const BoardPage = () => {
 		<div className='main-body'>
 			{ModalInvite}
 			<div className='main-body__header'>
-				<h1 className='main-body__title'>{CurrentBoard?.title}</h1>
+				<h1 className='main-body__title'>{currentBoard?.title}</h1>
 				<div className='main-body__menu-list'>
-					<UserList UserList={CurrentBoard?.users} key={CurrentBoard?._id} />
+					<UserList UserList={currentBoard?.users} key={currentBoard?._id} />
 					<div className='main-body__button-area'>
 						<MainButton text='+ Invite' onClick={() => setModalInvite(true)} />
-						<button className='main-body__button-menu' onClick={() => boardMenuActive}>
+						<button
+							className='main-body__button-menu'
+							onClick={() => boardMenuActivatorClicked(true)}
+						>
 							<svg
 								width='24'
 								height='25'
@@ -68,7 +61,7 @@ export const BoardPage = () => {
 				</div>
 			</div>
 			<div className='main-body__card-wrapper'>
-				{CurrentBoard?.columns.map(column => (
+				{currentBoard?.columns.map(column => (
 					<Column title={column?.title} cards={column?.cards} key={column?._id} />
 				))}
 				<CreateCard

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { $api, BASE_URL } from '../axios.config'
 import { addError } from '../../store/Error/error.store'
-import { IAccessToken } from '../../utils/types/Auth.types'
+import { IAccessToken } from '../../utils/types/auth.type'
 
 export const login = async (email: string, password: string): Promise<string | undefined> => {
 	try {

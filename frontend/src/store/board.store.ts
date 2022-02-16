@@ -1,7 +1,8 @@
-import { createEffect, createStore, sample } from 'effector'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createEffect, createEvent, createStore, forward, sample } from 'effector'
 import { createGate } from 'effector-react'
-import { getAllBoard } from '../http/API/board.api'
-import { IBoardShortInfo } from '../utils/types/board.type'
+import { getAllBoard, getCurrentBoardById } from '../http/API/board.api'
+import { IBoard, IBoardShortInfo } from '../utils/types/board.type'
 
 // --------------------- get all boards for NavBar ----------------------- //
 
@@ -20,3 +21,30 @@ sample({
 })
 
 export { $boardsMainInfo, getAllMainInfoFx }
+
+// --------------------- get current board by id  ----------------------- //
+
+const mochaDataBoard = {
+	_id: '',
+	BID: '',
+	title: '',
+	background: '',
+	owner: '',
+	users: [],
+	columns: [],
+}
+// TODO WebSockets
+const sentBoardId = createEvent<string>()
+const getCurrentBoardByIdFx = createEffect(async (id: string) => await getCurrentBoardById(id))
+
+const $currentBoard = createStore<IBoard | undefined>(mochaDataBoard).on(
+	getCurrentBoardByIdFx.doneData,
+	(_, currentBoard) => currentBoard
+)
+
+forward({
+	from: sentBoardId,
+	to: getCurrentBoardByIdFx,
+})
+
+export { $currentBoard, sentBoardId, getCurrentBoardByIdFx }

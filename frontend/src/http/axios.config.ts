@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IAccessToken } from '../utils/types/Auth.types'
+import { IAccessToken } from '../utils/types/auth.type'
 
 export const BASE_URL = 'http://localhost:5000/api'
 export const storageName = 'Token'

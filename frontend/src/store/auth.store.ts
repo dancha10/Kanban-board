@@ -1,6 +1,6 @@
 import { createEffect, createEvent, createStore, forward } from 'effector'
 import { login, logout, refreshToken, registration } from '../http/API/auth.api'
-import { IAuthPayload, ISignUpPayload } from '../utils/types/Auth.types'
+import { IAuthPayload, ISignUpPayload } from '../utils/types/auth.type'
 import { storageName } from '../http/axios.config'
 
 const onSubmittedSignUp = createEvent<ISignUpPayload>()
@@ -57,6 +57,7 @@ export {
 	logoutClicked,
 	signUpFx,
 	authorizationFx,
+	refreshFx,
 	checkAuthorization,
 	$accessToken,
 }

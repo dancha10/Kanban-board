@@ -1,7 +1,3 @@
-export interface IBoards {
-	boards: Array<IBoard>
-}
-
 export interface IBoardShortInfo {
 	_id: string
 	BID: string
@@ -26,21 +22,28 @@ export interface IUsers {
 }
 
 export interface IColumns {
-	_id?: string
+	_id: string
 	title: string
 	cards: Array<ICards>
 }
 
 export interface ICards {
 	_id: string
-	task: string
+	title: string
 	description: string
-	cover: string
-	border: string
-	files: Array<any>
+	coverURL: string
+	borderColor: string
+	attachment: Array<IFile>
 	time: {
 		start: number
 		end: number
 		isCompleted: boolean
 	}
+}
+
+export interface IFile {
+	_id: string
+	fileName: string
+	url: string
+	size: number
 }
