@@ -6,6 +6,7 @@ import { useToasty } from './toast.hook'
 import { OpacityInput } from '../components/atoms/OpacityInput'
 import { MainButton } from '../components/atoms/MainButton'
 import { ModalWindow } from '../components/atoms/ModalWindow'
+import { $api } from '../http/axios.config'
 
 export const useModal = () => {
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -21,13 +22,7 @@ export const useModal = () => {
 	// Modal Create Board
 	const CreateBoardHandler = async () => {
 		try {
-			const data = await request(
-				'/api/board/create',
-				'POST',
-				{ title: inputRef?.current?.value },
-				{},
-				true
-			)
+			const data = $api.post('/board/create', { title: inputRef?.current?.value })
 			console.log(data)
 			inputRef!.current!.value = ''
 			setModalCreateBoard(false)
@@ -55,8 +50,9 @@ export const useModal = () => {
 	// Modal Invite
 	const InviteHandler = async () => {
 		try {
+			console.log(inputRef?.current?.value)
 			const data = await request(
-				'/board/invite',
+				'/api/board/invite',
 				'POST',
 				{ generationID: inputRef?.current?.value },
 				{},

@@ -1,17 +1,16 @@
 import React, { useRef, useState } from 'react'
-import { useStore } from 'effector-react'
 import { CSSTransition } from 'react-transition-group'
-
+import { useStore } from 'effector-react'
 import { useOutside } from '../../../hooks/outside.hook'
 
-import { $isBoardMenuActive, boardMenuInactive } from '../../../store/popup.store'
+import { $isBoardMenuActive, boardMenuActivatorClicked } from '../../../store/popup.store'
 import './style.scss'
 
 export const BoardMenu = () => {
 	const [color, setColor] = useState('')
 	const refNode = useRef<HTMLDivElement>(null)
 
-	// const { ref } = useOutside(PopupStore.setActiveBoardMenu)
+	const { ref } = useOutside(boardMenuActivatorClicked)
 
 	const ColorHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setColor((event.target as HTMLButtonElement).id)
@@ -29,12 +28,10 @@ export const BoardMenu = () => {
 			nodeRef={refNode}
 		>
 			<div className='board-menu' ref={refNode}>
-				<div className='board-menu__container'>
-					{' '}
-					{/* ref={ref}> */}
+				<div className='board-menu__container' ref={ref}>
 					<div className='board-menu__header'>
 						<div className='board-menu__title'>Menu</div>
-						<button className='modal__close' onClick={() => boardMenuInactive}>
+						<button className='modal__close' onClick={() => boardMenuActivatorClicked(false)}>
 							<svg
 								width='24'
 								height='24'

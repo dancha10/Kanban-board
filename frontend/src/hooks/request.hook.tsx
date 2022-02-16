@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { AuthContext } from '../utils/context/AuthContext'
 
 type RequestHook = () => {
 	isLoading: boolean
@@ -28,8 +27,6 @@ export const useRequest = () => {
 	const [isLoading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 
-	const auth = useContext(AuthContext)
-
 	const request = useCallback(
 		async (url, method = 'GET', body = null, headers = {}, isAuthorization = false) => {
 			try {
@@ -47,11 +44,11 @@ export const useRequest = () => {
 				const response = await fetch(url, { method, body, headers })
 				const data = await response.json()
 
-				if (!response.ok && response.status === 401) {
+				/* if (!response.ok && response.status === 401) {
 					const refreshToken: any = await auth.refresh() // TODO add TYPE
 					headers.Authorization = `Bearer ${refreshToken.accessToken}`
 					return await refetch(url, method, body, headers)
-				}
+				} */
 
 				if (!response.ok) {
 					console.log(response)

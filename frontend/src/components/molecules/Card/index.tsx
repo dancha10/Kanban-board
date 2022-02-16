@@ -11,31 +11,42 @@ interface ICard {
 }
 
 export const Card: React.FC<ICard> = ({ card }) => {
-	console.log(card.time.start)
+	const {
+		_id,
+		title,
+		description,
+		borderColor,
+		coverURL,
+		attachment,
+		time: { start, end, isCompleted },
+	} = card
 	return (
 		<div
-			className={`card ${card.border && `border--${card.border}`}`}
+			className={`card ${borderColor && `border--${borderColor}`}`}
 			onClick={() => {
 				console.log('Op')
 			}}
 			role='presentation'
 		>
 			<div className='card__container'>
-				<div className='card__cover'>
-					<img src={card.cover} alt='img' />
-				</div>
-				<h4 className='card__title'>{card.task}</h4>
-				<p className='card__description'>{card.description}</p>
-
-				{card.time && (
-					<div className='card__timer'>
-						<Timer time={[card.time.start, card.time.end]} />
-						{/* TODO DELETE PARSE */}
+				{coverURL && (
+					<div className='card__cover'>
+						<img src={coverURL} alt='img' />
 					</div>
 				)}
+				<h4 className='card__title'>{title}</h4>
+				<p className='card__description'>{description}</p>
+
+				{start ||
+					(end && (
+						<div className='card__timer'>
+							<Timer time={[start, end]} />
+							{/* TODO DELETE PARSE */}
+						</div>
+					))}
 
 				<div className='card__count-clip'>
-					<span>{card.files.length}</span>
+					<span>{attachment.length}</span>
 					<svg
 						width='24'
 						height='24'

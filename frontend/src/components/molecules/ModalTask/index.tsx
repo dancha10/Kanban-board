@@ -12,7 +12,7 @@ import './style.scss'
 
 import { useToasty } from '../../../hooks/toast.hook'
 import { Timer } from '../../atoms/Timer'
-import { $isModalTaskActive, modalTaskActive, modalTaskInactive } from '../../../store/popup.store'
+import { $isModalTaskActive, modalTaskActivatorClicked } from '../../../store/popup.store'
 
 export const ModalTask = () => {
 	const notification = useToasty()
@@ -55,7 +55,7 @@ export const ModalTask = () => {
 		<TransitionGroup>
 			<ModalWindow
 				modalActive={isModalTaskActive}
-				setModalActive={() => modalTaskActive}
+				setModalActive={modalTaskActivatorClicked}
 				isButtonClose={false}
 			>
 				<div className='modal-task'>
@@ -189,7 +189,7 @@ export const ModalTask = () => {
 								<li className='modal-task__toolbar-item'>
 									<button
 										className='modal-task__toolbar-button'
-										onClick={() => modalTaskInactive}
+										onClick={() => modalTaskActivatorClicked(false)}
 										title='Close'
 									>
 										<svg

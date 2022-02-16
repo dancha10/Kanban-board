@@ -8,7 +8,7 @@ import './style.scss'
 
 interface IModalWindow {
 	modalActive: boolean
-	setModalActive: (state: boolean) => void | React.Dispatch<React.SetStateAction<boolean>> | any
+	setModalActive: (state: boolean) => void | React.Dispatch<React.SetStateAction<boolean>>
 	isButtonClose: boolean
 }
 

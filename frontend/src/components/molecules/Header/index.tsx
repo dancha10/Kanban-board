@@ -1,13 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { BellNotification } from '../../atoms/BellNotification'
+import { UserMenu } from '../UserMenu'
 import { Avatar } from '../../atoms/Avatar'
-
+import { BellNotification } from '../../atoms/BellNotification'
 import { SCREENS } from '../../../routes/endpoints'
 import './style.scss'
 
-import { UserMenu } from '../UserMenu'
-import { userMenuActivate } from '../../../store/popup.store'
+import { userMenuActivatorClicked } from '../../../store/popup.store'
 
 export const Header = () => {
 	return (
@@ -64,7 +63,7 @@ export const Header = () => {
 							type='icon'
 							nickname='Bublick'
 							avatar={undefined}
-							handler={userMenuActivate}
+							handler={() => userMenuActivatorClicked(true)}
 						/>
 						<UserMenu />
 					</div>

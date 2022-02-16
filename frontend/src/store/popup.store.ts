@@ -1,31 +1,34 @@
-import { createEvent, createStore } from 'effector'
+import { createEvent, createStore, forward } from 'effector'
 
-const userMenuActivate = createEvent()
-const userMenuInactivate = createEvent()
-const $isUserMenu = createStore(false)
-	.on(userMenuActivate, (_, active) => active)
-	.reset(userMenuInactivate)
+const userMenuActivatorClicked = createEvent<boolean>()
+const $isUserMenuActive = createStore(false)
 
-const boardMenuActive = createEvent()
-const boardMenuInactive = createEvent()
+forward({
+	from: userMenuActivatorClicked,
+	to: $isUserMenuActive,
+})
+
+const boardMenuActivatorClicked = createEvent<boolean>()
 const $isBoardMenuActive = createStore(false)
-	.on(boardMenuActive, (_, active) => active)
-	.reset(boardMenuInactive)
 
-const modalTaskActive = createEvent()
-const modalTaskInactive = createEvent()
+forward({
+	from: boardMenuActivatorClicked,
+	to: $isBoardMenuActive,
+})
+
+const modalTaskActivatorClicked = createEvent<boolean>()
 const $isModalTaskActive = createStore(false)
-	.on(boardMenuActive, (_, active) => active)
-	.reset(modalTaskActive)
+
+forward({
+	from: modalTaskActivatorClicked,
+	to: $isModalTaskActive,
+})
 
 export {
-	userMenuActivate,
-	userMenuInactivate,
-	$isUserMenu,
-	boardMenuActive,
-	boardMenuInactive,
+	userMenuActivatorClicked,
+	$isUserMenuActive,
+	boardMenuActivatorClicked,
 	$isBoardMenuActive,
-	modalTaskActive,
-	modalTaskInactive,
+	modalTaskActivatorClicked,
 	$isModalTaskActive,
 }

@@ -12,7 +12,11 @@ export const CreateCard: React.FC<CreateCardType> = ({ type = 'card', text, onCl
 	return (
 		<button
 			className={classList('create-card', { 'create-column': type === 'column' })}
-			onClick={onClick}
+			onClick={() => {
+				if (onClick) {
+					onClick()
+				}
+			}}
 		>
 			{text}
 		</button>

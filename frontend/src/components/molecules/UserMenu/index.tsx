@@ -1,18 +1,14 @@
-import React, { useContext, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-
 import { useStore } from 'effector-react'
 import { useToasty } from '../../../hooks/toast.hook'
 import { useOutside } from '../../../hooks/outside.hook'
-
 import { Avatar } from '../../atoms/Avatar'
-
 import { SCREENS } from '../../../routes/endpoints'
-
-import './style.scss'
 import { logoutClicked } from '../../../store/auth.store'
-import { $isUserMenu, userMenuActivate, userMenuInactivate } from '../../../store/popup.store'
+import { $isUserMenuActive, userMenuActivatorClicked } from '../../../store/popup.store'
+import './style.scss'
 
 export const UserMenu: React.FC = () => {
 	const IRef = useRef<HTMLInputElement>(null)
@@ -21,7 +17,7 @@ export const UserMenu: React.FC = () => {
 	const notification = useToasty()
 	const navigate = useNavigate()
 
-	// const { ref } = useOutside(userMenuActivate)
+	const { ref } = useOutside(userMenuActivatorClicked)
 
 	const CopyHandler = () => {
 		IRef?.current?.select()
@@ -30,7 +26,7 @@ export const UserMenu: React.FC = () => {
 		notification('ID copied', 'success')
 	}
 
-	const isUserMenu = useStore($isUserMenu)
+	const isUserMenu = useStore($isUserMenuActive)
 
 	return (
 		<CSSTransition
@@ -41,7 +37,7 @@ export const UserMenu: React.FC = () => {
 			nodeRef={IRefTransition}
 		>
 			<div className='user-menu' ref={IRefTransition}>
-				<div className='user-menu__container'>
+				<div className='user-menu__container' ref={ref}>
 					<div className='user-menu__header'>
 						<Avatar type='setting' nickname='Nickname' avatar={undefined} />
 						<span className='user-menu__nickname'>Nick</span>
@@ -86,7 +82,7 @@ export const UserMenu: React.FC = () => {
 							onClick={() => {
 								logoutClicked()
 								navigate(SCREENS.SCREENS__LOGIN)
-								userMenuInactivate()
+								userMenuActivatorClicked(false)
 							}}
 						>
 							<svg

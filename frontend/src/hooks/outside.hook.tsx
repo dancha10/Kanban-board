@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-export const useOutside = (handler: (bool: boolean) => void, initialValue: boolean = true) => {
+export const useOutside = (handler: (state: boolean) => void, initialValue: boolean = true) => {
 	const [isVisible, setVisible] = useState(initialValue)
 	const ref = useRef<HTMLDivElement>(null)
 
