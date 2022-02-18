@@ -7,6 +7,7 @@ import { OpacityInput } from '../components/atoms/OpacityInput'
 import { MainButton } from '../components/atoms/MainButton'
 import { ModalWindow } from '../components/atoms/ModalWindow'
 import { $api } from '../http/axios.config'
+import { createBoardClicked } from '../store/board.store'
 
 export const useModal = () => {
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -20,15 +21,10 @@ export const useModal = () => {
 	const [isModalCreateColumn, setModalCreateColumn] = useState(false)
 
 	// Modal Create Board
-	const CreateBoardHandler = async () => {
-		try {
-			const data = $api.post('/board/create', { title: inputRef?.current?.value })
-			console.log(data)
-			inputRef!.current!.value = ''
-			setModalCreateBoard(false)
-		} catch (err) {
-			if (err instanceof Error) notification(err.message)
-		}
+	const CreateBoardHandler = () => {
+		createBoardClicked(inputRef?.current?.value!)
+		inputRef!.current!.value = ''
+		setModalCreateBoard(false)
 	}
 
 	const ModalCreateBoard = useMemo(() => {

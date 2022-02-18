@@ -11,7 +11,8 @@ import { useNotification } from './hooks/notification.hook'
 
 import { $accessToken, checkAuthorization, refreshFx } from './store/auth.store'
 import { storageName } from './http/axios.config'
-import { $error, clearError } from './store/error.store'
+import { $error, clearedError } from './store/error.store'
+import { $successMessages, successMessageCleared } from './store/success.store'
 
 export function App() {
 	useEffect(() => {
@@ -23,15 +24,19 @@ export function App() {
 	const isLoading = useStore(refreshFx.pending)
 	const isAuthenticated = !!useStore($accessToken)
 
-	const error = useStore($error)
-	const errorNotification = useNotification()
+	const successMessage = useStore($successMessages)
+	const errorMessage = useStore($error)
+	const toastNotification = useNotification()
 
 	useEffect(() => {
-		if (error) {
-			errorNotification(error)
+		if (errorMessage) {
+			toastNotification(errorMessage)
 		}
-		clearError()
-	}, [error, clearError])
+		clearedError()
+
+		toastNotification(successMessage, 'success')
+		successMessageCleared()
+	}, [errorMessage, clearedError, successMessage, successMessageCleared])
 
 	if (isLoading) return <Loader isFull />
 

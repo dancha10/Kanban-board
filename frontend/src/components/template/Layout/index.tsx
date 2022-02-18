@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { Header } from '../../molecules/Header'
-import { NavBar } from '../../molecules/NavBar'
+import { NavBar } from '../../organisms/NavBar'
 
 import './style.scss'
 
