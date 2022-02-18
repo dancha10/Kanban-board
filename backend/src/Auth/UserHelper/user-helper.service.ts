@@ -21,8 +21,7 @@ export class UserHelperService {
 
   async validateUser(email: string, password: string) {
     const user = await this.findByEmail(email)
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (user && isMatch) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...other } = user
       return other
     }
