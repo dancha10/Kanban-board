@@ -1,5 +1,7 @@
-import { createEvent, createStore } from 'effector'
+import { createDomain } from 'effector'
 
-export const clearError = createEvent()
+const errorDomain = createDomain()
 
-export const $error = createStore<string | undefined>('').reset(clearError)
+export const clearError = errorDomain.createEvent()
+
+export const $error = errorDomain.createStore<string | undefined>('').reset(clearError)

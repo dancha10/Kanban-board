@@ -9,6 +9,11 @@ export const $api = axios.create({
 	baseURL: BASE_URL,
 })
 
+export const $auth = axios.create({
+	withCredentials: true,
+	baseURL: `${BASE_URL}/auth`,
+})
+
 $api.interceptors.request.use(config => {
 	config.headers!.Authorization = `Bearer ${localStorage.getItem(storageName)}`
 	return config
