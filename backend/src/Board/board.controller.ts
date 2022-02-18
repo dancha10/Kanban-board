@@ -17,7 +17,7 @@ import { JwtAuthGuard } from 'src/Auth/Guard/jwt-auth.guard'
 import { CreateBoardDto } from './DTO/CreateBoard.dto'
 import { SetColorDto } from './DTO/SetColor.dto'
 import { Board } from '../Models/board.model'
-import { IResponseMessage } from '../Types/PromiseTypes'
+import { IResponseMessage } from '../Utils/Types/promise.type'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Board')

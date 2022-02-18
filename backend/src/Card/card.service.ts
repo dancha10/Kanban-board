@@ -20,7 +20,7 @@ import { CardCompletedDto } from './DTO/card-completed.dto'
 import { CardColumnIdDto } from './DTO/card-ColumnID.dto'
 import { File } from '../Models/file.model'
 
-import { IResponseMessage, IResponseSuccess } from '../Types/PromiseTypes'
+import { IResponseMessage, IResponseSuccess } from '../Utils/Types/promise.type'
 
 @Injectable()
 export class CardService {

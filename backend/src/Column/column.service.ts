@@ -12,7 +12,7 @@ import { BoardService } from '../Board/board.service'
 import { CreateColumnDto } from './DTO/CreateColumn.dto'
 import { UpdateColumnDto } from './DTO/UpdateColumn.dto'
 import { CardService } from '../Card/card.service'
-import { IResponseMessage } from '../Types/PromiseTypes'
+import { IResponseMessage } from '../Utils/Types/promise.type'
 import { Card, CardModelDocument } from '../Models/card.model'
 
 @Injectable()

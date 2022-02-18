@@ -12,7 +12,7 @@ import { Board, BoardModelDocument } from '../Models/board.model'
 import { ColumnService } from '../Column/column.service'
 import { CreateBoardDto } from './DTO/CreateBoard.dto'
 import { SetColorDto } from './DTO/SetColor.dto'
-import { IPayload, IResponseMessage } from '../Types/PromiseTypes'
+import { IPayload, IResponseMessage } from '../Utils/Types/promise.type'
 
 @Injectable()
 export class BoardService {

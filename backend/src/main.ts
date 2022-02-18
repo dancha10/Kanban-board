@@ -19,14 +19,14 @@ async function start() {
   })
   app.use(cookieParser())
 
-  app.use(
+  /*app.use(
     session({
       secret: process.env.COOKIE_SECRET,
       resave: false,
       cookie: { maxAge: 3 * 60 * 60 * 1000 },
       saveUninitialized: false,
     }),
-  )
+  )*/
   //app.use(csurf({ cookie: false }))
 
   const docs = new DocumentBuilder()

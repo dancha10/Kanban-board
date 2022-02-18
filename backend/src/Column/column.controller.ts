@@ -13,7 +13,7 @@ import { JwtAuthGuard } from '../Auth/Guard/jwt-auth.guard'
 import { ColumnService } from './column.service'
 import { CreateColumnDto } from './DTO/CreateColumn.dto'
 import { UpdateColumnDto } from './DTO/UpdateColumn.dto'
-import { IResponseMessage } from '../Types/PromiseTypes'
+import { IResponseMessage } from '../Utils/Types/promise.type'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Column')

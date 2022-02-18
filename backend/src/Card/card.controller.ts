@@ -28,7 +28,7 @@ import { CardIdDto } from './DTO/card-id.dto'
 import { CardDateDto } from './DTO/card-date.dto'
 import { CardCompletedDto } from './DTO/card-completed.dto'
 import { CardColumnIdDto } from './DTO/card-ColumnID.dto'
-import { IResponseMessage, IResponseSuccess } from '../Types/PromiseTypes'
+import { IResponseMessage, IResponseSuccess } from '../Utils/Types/promise.type'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Card')

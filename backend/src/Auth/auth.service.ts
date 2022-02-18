@@ -11,7 +11,11 @@ import * as bcrypt from 'bcrypt'
 import { Token, TokenModelDocument } from '../Models/token.model'
 import { CreateUserDto } from './DTO/CreateUser.dto'
 import { UserHelperService } from './UserHelper/user-helper.service'
-import { IFullSetOfTokens, ILoginDto, IPayload } from '../Types/PromiseTypes'
+import {
+  IFullSetOfTokens,
+  ILoginDto,
+  IPayload,
+} from '../Utils/Types/promise.type'
 
 @Injectable()
 export class AuthService {
