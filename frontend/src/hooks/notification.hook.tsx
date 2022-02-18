@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { toast } from 'react-toastify'
 
-export const useToasty = () => {
+export const useNotification = () => {
 	return useCallback((message: string, type: 'success' | 'error' | undefined = 'error') => {
 		if (type === 'success') {
 			return toast.success(message, {

@@ -1,66 +1,36 @@
-import React, { useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useStore } from 'effector-react'
-
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useStore } from 'effector-react'
 
 import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { FormField } from '../../atoms/FormField'
 import { Border } from '../../atoms/Border'
 import { Loader } from '../../atoms/Loader'
 
-import { useToasty } from '../../../hooks/toast.hook'
+import { authorizationFx, onSubmittedLogin } from '../../../store/auth.store'
 
-import { SCREENS } from '../../../routes/endpoints'
+import { authSchema } from './validator.schema'
 import { IAuthPayload, ISignUpPayload } from '../../../utils/types/auth.type'
+import { SCREENS } from '../../../routes/endpoints'
 
 import './style.scss'
-import { $ErrorStore, clearError } from '../../../store/Error/error.store'
-import { authorizationFx, onSubmittedLogin } from '../../../store/auth.store'
 
 export const AuthForm: React.FC = () => {
 	const isLoading = useStore(authorizationFx.pending)
-	const error = useStore($ErrorStore)
-
-	const notification = useToasty()
-	const navigate = useNavigate()
-
-	const schema = yup
-		.object({
-			email: yup
-				.string()
-				.min(4, 'Minimum email length 4 characters')
-				.max(30, 'Minimum email length 30 characters')
-				.email('Email entered incorrectly')
-				.required('This field is required'),
-			password: yup
-				.string()
-				.min(4, 'Minimum password length 4 characters')
-				.required('This field is required'),
-		})
-		.required('This field is required')
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<ISignUpPayload>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(authSchema),
 	})
 
-	const LoginHandler: SubmitHandler<IAuthPayload> = async data => {
+	const LoginHandler: SubmitHandler<IAuthPayload> = data => {
 		onSubmittedLogin(data)
 	}
-
-	useEffect(() => {
-		if (error !== null) {
-			notification(error)
-		}
-		clearError()
-		if (!error) navigate(SCREENS.SCREENS__MAIN)
-	}, [error, clearError])
 
 	return (
 		<section className='account-form layout-center'>
@@ -99,10 +69,9 @@ export const AuthForm: React.FC = () => {
 			</form>
 			<Border />
 			<NavLink to={`${SCREENS.SCREENS__REGISTRATION}`} className='account-form__redirect'>
-				{/* TODO Change to on /registration */}
 				Don’t have an account? Register now
 			</NavLink>
-			{isLoading && <Loader isFull />}
+			{isLoading && <Loader />}
 		</section>
 	)
 }

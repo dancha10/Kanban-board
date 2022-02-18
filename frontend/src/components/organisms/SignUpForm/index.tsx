@@ -1,75 +1,35 @@
-import React, { useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useStore } from 'effector-react'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useStore } from 'effector-react'
 
 import { FormField } from '../../atoms/FormField'
 import { ButtonAuth } from '../../atoms/ButtonAuth'
 import { Border } from '../../atoms/Border'
 import { Loader } from '../../atoms/Loader'
 
-import { useToasty } from '../../../hooks/toast.hook'
+import { onSubmittedSignUp, signUpFx } from '../../../store/auth.store'
 
-import { SCREENS } from '../../../routes/endpoints'
+import { SignUpschema } from './validator.schema'
 import { ISignUpPayload } from '../../../utils/types/auth.type'
-
-import { $accessToken, onSubmittedSignUp, signUpFx } from '../../../store/auth.store'
-import { $ErrorStore, clearError } from '../../../store/Error/error.store'
+import { SCREENS } from '../../../routes/endpoints'
 
 import '../AuthForm/style.scss'
 
 export const SignUpForm: React.FC = () => {
-	const token = useStore($accessToken)
 	const isLoading = useStore(signUpFx.pending)
-	const error = useStore($ErrorStore)
-
-	const notification = useToasty()
-	const navigate = useNavigate()
-
-	const schema = yup
-		.object({
-			email: yup
-				.string()
-				.min(4, 'Minimum email length 4 characters')
-				.max(30, 'Maximum email length 4 characters')
-				.email('Email entered incorrectly')
-				.required(),
-			nickname: yup
-				.string()
-				.min(3, 'Minimum nickname length 3 characters')
-				.max(20, 'Maximum nickname length 20 characters')
-				.required('This field is required'),
-			password: yup
-				.string()
-				.min(4, 'Minimum password length 3 characters')
-				.required('This field is required'),
-			passwordConfirm: yup
-				.string()
-				.min(4, 'Minimum password length 3 characters')
-				.required('This field is required'),
-		})
-		.required('This field is required')
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<ISignUpPayload>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(SignUpschema),
 	})
 
-	useEffect(() => {
-		if (error !== null) {
-			notification(error)
-		}
-		clearError()
-	}, [error, clearError])
-
-	const SignUpHandler: SubmitHandler<ISignUpPayload> = async data => {
+	const SignUpHandler: SubmitHandler<ISignUpPayload> = data => {
 		onSubmittedSignUp(data)
-		if (token && !isLoading) navigate(SCREENS.SCREENS__MAIN)
 	}
 
 	return (

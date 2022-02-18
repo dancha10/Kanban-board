@@ -9,13 +9,11 @@ import { IColumns } from '../../../utils/types/board.type'
 import { modalTaskActivatorClicked } from '../../../store/popup.store'
 import './style.scss'
 
-type IColumn = Omit<IColumns, '_id'>
-
-export const Column: React.FC<IColumn> = ({ title, cards }) => {
+export const Column: React.FC<IColumns> = ({ title, cards, _id }) => {
 	return (
 		<div className='column'>
 			<div className='column__header'>
-				<ListHeader title={title} />
+				<ListHeader title={title} columnID={_id} />
 			</div>
 			<div className='column__list-column'>
 				{cards.map(card => (

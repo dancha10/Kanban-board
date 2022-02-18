@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { changedTitleBlur } from '../../../store/column.store'
 import './style.scss'
 
 interface IListHeader {
 	title: string
+	columnID: string
 }
 
-// TODO edit to change
+export const ListHeader: React.FC<IListHeader> = ({ title, columnID }) => {
+	const [newTitle, setNewTitle] = useState<string>(title)
+	const editorTitle = (value: string) => setNewTitle(value)
+	const onChangerTitle = () => {
+		if (title !== newTitle) changedTitleBlur({ title: newTitle, columnID })
+	}
 
-export const ListHeader: React.FC<IListHeader> = ({ title }) => {
 	return (
 		<div className='list-header'>
-			<p className='list-header__title'>{title}</p>
+			<input
+				className='list-header__title'
+				defaultValue={newTitle}
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => editorTitle(e.target.value)}
+				onBlur={() => onChangerTitle()}
+				onKeyPress={e => {
+					if (e.key === 'Enter') onChangerTitle()
+				}}
+			/>
 			<button className='list-header__extras'>
 				<svg
 					width='24'

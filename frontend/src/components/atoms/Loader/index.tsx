@@ -8,7 +8,7 @@ interface ILoader {
 	isFull?: boolean
 }
 
-export const Loader: React.FC<ILoader> = ({ type = 'triangle', isFull = false }) => {
+export const Loader: React.FC<ILoader> = ({ type = 'triangle', isFull = true }) => {
 	if (type === 'triangle')
 		return (
 			<div className={ClassList('loading', { 'loading--full': isFull })}>

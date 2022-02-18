@@ -10,12 +10,12 @@ import { ColorStrokeField } from '../../atoms/ColorStrokeField'
 
 import './style.scss'
 
-import { useToasty } from '../../../hooks/toast.hook'
+import { useNotification } from '../../../hooks/notification.hook'
 import { Timer } from '../../atoms/Timer'
 import { $isModalTaskActive, modalTaskActivatorClicked } from '../../../store/popup.store'
 
 export const ModalTask = () => {
-	const notification = useToasty()
+	const notification = useNotification()
 
 	const RefColor = useRef<HTMLDivElement>(null) // for CSSTransition
 	const refImageUpload = useRef<HTMLInputElement>(null)

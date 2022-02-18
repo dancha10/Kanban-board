@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { useStore } from 'effector-react'
-import { useLocation } from 'react-router-dom'
 import { useModal } from '../../hooks/modal.hook'
 import { CreateCard } from '../../components/atoms/CreateCard'
 import { UserList } from '../../components/molecules/UserList'
@@ -14,20 +14,16 @@ import { $currentBoard, getCurrentBoardByIdFx, sentBoardId } from '../../store/b
 import './style.scss'
 
 export const BoardPage = () => {
-	const location = useLocation()
-
 	const { ModalInvite, setModalInvite, ModalCreateColumn, setModalCreateColumn } = useModal()
 
+	const params = useParams()
+
 	useEffect(() => {
-		sentBoardId(location.pathname.split('/b/')[1])
-	}, [location])
+		sentBoardId(params.id!)
+	}, [params.id])
 
 	const currentBoard = useStore($currentBoard)
 	const isLoading = useStore(getCurrentBoardByIdFx.pending)
-
-	useEffect(() => {
-		console.log(currentBoard)
-	}, [currentBoard])
 
 	if (isLoading) return <Loader />
 
@@ -62,7 +58,12 @@ export const BoardPage = () => {
 			</div>
 			<div className='main-body__card-wrapper'>
 				{currentBoard?.columns.map(column => (
-					<Column title={column?.title} cards={column?.cards} key={column?._id} />
+					<Column
+						title={column?.title}
+						cards={column?.cards}
+						key={column?._id}
+						_id={column?._id}
+					/>
 				))}
 				<CreateCard
 					type='column'

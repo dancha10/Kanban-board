@@ -2,10 +2,9 @@ import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import { useStore } from 'effector-react'
-import { useToasty } from '../../../hooks/toast.hook'
+import { useNotification } from '../../../hooks/notification.hook'
 import { useOutside } from '../../../hooks/outside.hook'
 import { Avatar } from '../../atoms/Avatar'
-import { SCREENS } from '../../../routes/endpoints'
 import { logoutClicked } from '../../../store/auth.store'
 import { $isUserMenuActive, userMenuActivatorClicked } from '../../../store/popup.store'
 import './style.scss'
@@ -14,7 +13,7 @@ export const UserMenu: React.FC = () => {
 	const IRef = useRef<HTMLInputElement>(null)
 	const IRefTransition = useRef<HTMLDivElement>(null)
 
-	const notification = useToasty()
+	const notification = useNotification()
 	const navigate = useNavigate()
 
 	const { ref } = useOutside(userMenuActivatorClicked)
@@ -81,7 +80,6 @@ export const UserMenu: React.FC = () => {
 							className='user-menu__logout'
 							onClick={() => {
 								logoutClicked()
-								navigate(SCREENS.SCREENS__LOGIN)
 								userMenuActivatorClicked(false)
 							}}
 						>

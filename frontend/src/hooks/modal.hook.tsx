@@ -1,7 +1,7 @@
 import React, { useRef, useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRequest } from './request.hook'
-import { useToasty } from './toast.hook'
+import { useNotification } from './notification.hook'
 
 import { OpacityInput } from '../components/atoms/OpacityInput'
 import { MainButton } from '../components/atoms/MainButton'
@@ -11,7 +11,7 @@ import { $api } from '../http/axios.config'
 export const useModal = () => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const { request } = useRequest()
-	const notification = useToasty()
+	const notification = useNotification()
 	const location = useLocation()
 
 	// list modals
