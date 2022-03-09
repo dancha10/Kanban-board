@@ -1,0 +1,16 @@
+.current-board {
+  // .current-board__header
+  &__header {
+    margin-top: 7px;
+  }
+
+  // .current-board__title
+  &__title {
+  }
+
+  // .current-board__content
+  &__content {
+    margin-top: 15px;
+    display: flex;
+  }
+}

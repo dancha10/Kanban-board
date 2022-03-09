@@ -1,0 +1,54 @@
+@import '/src/app/styles/variables';
+
+.input-auth {
+  width: 415px;
+  height: 56px;
+  font-size: 16px;
+  line-height: 1.53em;
+  color: $dark;
+  border: 1px solid #6CCCF8;
+  border-radius: 8px;
+  padding: 12px 14px;
+
+  &::placeholder {
+    color: #9F9F9F;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  &--active {
+    border: 1px solid #2DA6F8;
+  }
+
+  &--error {
+    border: 1px solid #FB6262;
+    background: #FFF5F5;
+  }
+}
+
+.input-container {
+  position: relative;
+  width: max-content;
+  height: max-content;
+
+  &--error {
+    &:before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      right: 16px;
+      z-index: 2;
+      transform: translateY(-50%);
+      background: url('./error_ico.svg') no-repeat;
+    }
+  }
+}
+
+label {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 19px;
+  color: #213864;
+}

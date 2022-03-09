@@ -1,0 +1,15 @@
+.account-form {
+  &__field {
+    position: relative;
+    margin: 0px 0px 24px 0px;
+  }
+
+  &__error-message {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.46em;;
+    color: #FB6262;
+    position: absolute;
+    left: 2%;
+  }
+}

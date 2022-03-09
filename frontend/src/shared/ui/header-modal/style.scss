@@ -1,0 +1,22 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__close {
+    width: 24px;
+    height: 24px;
+    top: 10px;
+    right: 12px;
+    background: none;
+
+    @media (any-hover: hover) {
+      &:hover {
+        svg path {
+          transition: all .2s ease;
+          stroke: #1E9EF7;
+        }
+      }
+    }
+  }
+}

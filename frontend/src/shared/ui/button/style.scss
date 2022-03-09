@@ -1,0 +1,64 @@
+.button-main {
+  width: 140px;
+  height: 42px;
+  border: 1px solid #213864;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #213864;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s linear;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background: #F1F9FF;
+      border: 1px solid #2DA6F8;
+      color: #1E9EF7;
+
+      svg {
+        fill: #1E9EF7;
+        transition: all 0.3s linear;
+      }
+    }
+  }
+
+  &:focus {
+    background: #2DA6F8;
+    border: 1px solid #2DA6F8;
+    color: white;
+
+    svg {
+      fill: #FFFFFF;
+      transition: all 0.3s linear;
+    }
+  }
+
+  &__check {
+    margin: 0px 5px 0px 0px;
+  }
+}
+
+.button-auth {
+  background: #2DA6F8;
+  border-radius: 8px;
+  width: 232px;
+  height: 53px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 128%;
+  color: #FFFFFF;
+  transition: all 0.3s ease;
+  @media (any-hover: hover) {
+    &:hover {
+      background: #5C98F1;
+    }
+  }
+
+  &:focus {
+    background: #4583DE;
+  }
+}
