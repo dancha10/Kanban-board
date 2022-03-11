@@ -1,4 +1,5 @@
 import { createEffect, createStore, sample } from 'effector'
+import { persist } from 'effector-storage/session'
 
 import { STORAGE_NAME } from 'shared/config'
 
@@ -24,3 +25,19 @@ sample({
 })
 
 export const $isAuthenticated = $accessToken.map(token => !!token)
+
+// -------------------------- Session Storage ------------------------- //
+
+export const $sessionStorage = createStore('')
+
+export const sessionStorageFx = createEffect<string, void, Error>(id => {
+	sessionStorage.setItem('cardID', id)
+})
+
+$sessionStorage.watch(el => console.log('sess storage:', el))
+
+sample({
+	clock: $sessionStorage,
+	target: sessionStorageFx,
+})
+// persist({ store: $sessionStorage, key: 'cardID' })

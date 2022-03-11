@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useStore } from 'effector-react'
 
-import { ModalCreateBoard, ModalCreateColumn } from 'widgets/modals'
+import { ModalCreateBoard, ModalCreateCard, ModalCreateColumn } from 'widgets/modals'
 import { Column } from 'widgets/column'
 import { CreateColumn } from 'features/create-column'
 import { Loader } from 'shared/ui/loader'
+import { ColorPalette } from 'features/color-palette'
 
 import { urlRedirected, $currentBoard, getCurrentBoardFx } from './model'
 
@@ -25,6 +26,7 @@ const BoardPage: React.FC = () => {
 	return (
 		<div className='current-board'>
 			<div className='current-board__header'>
+				<ColorPalette />
 				<h2 className='current-board__title'>{board.title}</h2>
 			</div>
 			<div className='current-board__content'>
@@ -41,6 +43,7 @@ const BoardPage: React.FC = () => {
 			</div>
 			<ModalCreateBoard />
 			<ModalCreateColumn />
+			<ModalCreateCard />
 		</div>
 	)
 }

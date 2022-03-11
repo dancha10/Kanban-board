@@ -1,0 +1,23 @@
+.copy-id {
+  background: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-35%);
+
+  svg path {
+    transition: all .4s ease-in;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      svg path:last-child {
+        stroke: #1E9EF7;
+      }
+
+      svg path:first-child {
+        fill: #1E9EF7;
+      }
+    }
+  }
+}

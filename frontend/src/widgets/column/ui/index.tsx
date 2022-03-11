@@ -25,7 +25,7 @@ export const Column: React.FC<IColumns> = ({ _id, title, cards }) => {
 					/>
 				))}
 			</div>
-			<CreateCard />
+			<CreateCard columnID={_id} />
 		</div>
 	)
 }

@@ -82,6 +82,28 @@ body {
   height: 100%;
 }
 
+.task-button {
+  width: 24px;
+  height: 24px;
+  background: none;
+
+  svg path {
+    transition: all .25s linear;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      svg path {
+        fill: #1E9EF7
+      }
+    }
+  }
+
+  & label {
+    cursor: pointer;
+  }
+}
+
 .red {
   background: tomato;
   transition: background-color .2s linear;

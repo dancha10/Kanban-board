@@ -1,3 +1,5 @@
 export * from './auth.api'
 export * from './board.api'
 export * from './column.api'
+export * from './card.api'
+export * from './profile.api'

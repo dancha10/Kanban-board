@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react'
 import { useStore } from 'effector-react'
 
-import {
-	$errorMessage,
-	$successMessage,
-	successMessageCleared,
-} from 'entities/notification-handler/model'
 import { useNotification } from 'shared/lib/hooks'
+
+import { $errorMessage, $successMessage, successMessageCleared } from './model'
 
 export const NotificationHandler: React.FC = () => {
 	const notify = useNotification()
@@ -22,6 +19,6 @@ export const NotificationHandler: React.FC = () => {
 			notify(successMessage, 'success')
 			successMessageCleared()
 		}
-	}, [])
+	}, [successMessage])
 	return null
 }

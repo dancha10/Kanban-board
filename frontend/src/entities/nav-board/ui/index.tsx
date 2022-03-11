@@ -2,8 +2,9 @@ import React from 'react'
 import { useGate, useList } from 'effector-react'
 
 import { BoardViewer } from 'shared/ui/board-viewer'
+import { MainPageGate } from 'shared/lib'
 
-import { $boards, MainPageGate } from '../model'
+import { $boards } from '../model'
 
 import './style.scss'
 

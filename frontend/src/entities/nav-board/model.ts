@@ -1,9 +1,8 @@
-import { createGate } from 'effector-react'
 import { createEffect, createStore, sample } from 'effector'
 import { AxiosError } from 'axios'
 
 import { getAllBoard } from 'shared/api'
-import { IBoardShortInfo } from 'shared/lib'
+import { IBoardShortInfo, MainPageGate } from 'shared/lib'
 
 const boardMock: IBoardShortInfo[] = [
 	{
@@ -13,8 +12,6 @@ const boardMock: IBoardShortInfo[] = [
 		background: 'blue',
 	},
 ]
-
-export const MainPageGate = createGate()
 
 const getAllBoardsFx = createEffect<void, Array<IBoardShortInfo>, AxiosError>(
 	async () => await getAllBoard()

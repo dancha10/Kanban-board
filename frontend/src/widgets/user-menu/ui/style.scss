@@ -1,0 +1,60 @@
+.user-menu {
+  padding: 7px 10px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  position: absolute;
+  top: 135%;
+  right: -5%;
+  z-index: 100;
+  // .user-menu__header
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  // .user-menu__nickname
+  &__nickname {
+    margin-left: 5px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 21px;
+    color: #213864;
+  }
+
+  // .user-menu__id-area
+  &__id-area {
+    position: relative;
+  }
+
+  // .user-menu__label
+  &__label {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 19px;
+    color: #333333;
+  }
+
+  // .user-menu__id
+  &__id {
+    position: relative;
+
+    & input {
+      height: 32px;
+      border: 1px solid #6CCCF8;
+      border-radius: 5px;
+      padding: 5px 10px;
+
+      &:disabled {
+        background: #FFFFFF;
+      }
+    }
+  }
+
+  // .user-menu__logout
+  &__logout {
+    margin-top: 10px;
+    border-top: 1px solid #E6E6E6;
+    padding: 8px 0 3px;
+  }
+}
