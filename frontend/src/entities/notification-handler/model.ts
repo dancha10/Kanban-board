@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 
 // ------------------ Error Handler ------------------- //
 
-const clearError = createEvent()
+export const clearError = createEvent()
 
 export const $errorHandler = createStore<AxiosError>({
 	config: {},
@@ -23,11 +23,6 @@ sample({
 	clock: $errorHandler,
 	fn: error => error?.response?.data?.message,
 	target: $errorMessage,
-})
-
-sample({
-	clock: $errorMessage,
-	target: clearError,
 })
 
 // ----------------- Success Handler ---------------------- //

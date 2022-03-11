@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
-import { useStore } from 'effector-react'
+import React, { useState } from 'react'
 
 import { ReactComponent as HeaderMenu } from '../lib/list-extras.svg'
-import { $titleColumn, titleEdited, titleSaved } from '../model'
+import { titleEdited, titleSaved } from '../model'
 
 import './style.scss'
 
@@ -12,21 +11,17 @@ interface IHeaderColumn {
 }
 
 export const HeaderColumn: React.FC<IHeaderColumn> = ({ columnID, title }) => {
-	const changeTitle = useStore($titleColumn)
-
-	useEffect(() => {
-		titleEdited(title)
-	}, [])
+	const [changedTitle, _] = useState(title)
 
 	const onChangerTitle = () => {
-		if (changeTitle !== title) titleSaved(columnID)
+		if (changedTitle !== title) titleSaved(columnID)
 	}
 
 	return (
 		<div className='header-column'>
 			<input
 				className='header-column__title'
-				value={changeTitle}
+				defaultValue={title}
 				onChange={event => titleEdited(event.target.value)}
 				onBlur={onChangerTitle}
 				onKeyPress={event => {

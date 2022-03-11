@@ -20,11 +20,11 @@ export const Router: React.FC = () => {
 				<Route path={SCREENS.SCREENS__MAIN} element={<TemplateLayout />}>
 					<Route index element={<ChooseMessage />} />
 					<Route path={`${SCREENS.SCREENS__MAIN}/b/:id`} element={<BoardPage />} />
-					<Route path={SCREENS.SCREENS__REDIRECT} element={<BoardPage />} />
+					<Route path={SCREENS.SCREENS__REDIRECT} element={<ChooseMessage />} />
 				</Route>
 				<Route
 					path={SCREENS.OAUTH__REDIRECT}
-					element={<div>You have successfully logged in</div>}
+					element={<div className='oauth-message'>You have successfully logged in</div>}
 				/>
 			</Routes>
 		)
@@ -34,7 +34,7 @@ export const Router: React.FC = () => {
 			<Route path={SCREENS.SCREENS__REGISTRATION} element={<SignUpPage />} />
 			<Route
 				path={SCREENS.OAUTH__REDIRECT}
-				element={<div>You have successfully logged in</div>}
+				element={<div className='oauth-message'>You have successfully logged in</div>}
 			/>
 			<Route path={SCREENS.SCREENS__REDIRECT} element={<SignInPage />} />
 		</Routes>

@@ -3,7 +3,7 @@ import { useStore } from 'effector-react'
 
 import { useNotification } from 'shared/lib/hooks'
 
-import { $errorMessage, $successMessage, successMessageCleared } from './model'
+import { $errorMessage, $successMessage, clearError, successMessageCleared } from './model'
 
 export const NotificationHandler: React.FC = () => {
 	const notify = useNotification()
@@ -11,7 +11,10 @@ export const NotificationHandler: React.FC = () => {
 	const successMessage = useStore($successMessage)
 
 	useEffect(() => {
-		if (errorMessage) notify(errorMessage)
+		if (errorMessage) {
+			notify(errorMessage)
+			clearError()
+		}
 	}, [errorMessage])
 
 	useEffect(() => {

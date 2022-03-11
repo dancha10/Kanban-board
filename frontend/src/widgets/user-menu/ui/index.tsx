@@ -20,7 +20,6 @@ export const UserMenu: React.FC<IUserMenu> = ({ user }) => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const isOpen = useStore($isOpen)
 	const { ref } = useClickOutside(changedOpening, true)
-
 	return (
 		<CSSTransition
 			classNames='modal-animation'
@@ -37,7 +36,7 @@ export const UserMenu: React.FC<IUserMenu> = ({ user }) => {
 						avatarURL={user?.avatarURL}
 						handler={() => {}}
 					/>
-					<p className='user-menu__nickname'>Nickname</p>
+					<p className='user-menu__nickname'>{user?.nickname}</p>
 				</div>
 				<div className='user-menu__id-area'>
 					<label htmlFor='copy' className='user-menu__label'>

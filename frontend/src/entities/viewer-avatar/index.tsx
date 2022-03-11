@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ReactComponent as ChangePhoto } from 'entities/viewer-avatar/change_photo.svg'
 
-import 'entities/viewer-avatar/style.scss'
+import './style.scss'
 
 export interface IViewerAvatar {
 	type: 'preview' | 'menu'
@@ -17,7 +17,7 @@ export const ViewerAvatar: React.FC<IViewerAvatar> = ({ type, avatarURL, nicknam
 			className={`viewer-avatar ${avatarURL ? 'viewer-avatar__img' : 'viewer-avatar__name'}`}
 			onClick={handler}
 		>
-			{avatarURL ? <img src={avatarURL} alt='Profile' /> : nickname.split('')[0]}
+			{avatarURL ? <img src={avatarURL} alt='Profile' /> : nickname.split('')[0]?.toUpperCase()}
 			{type === 'menu' && (
 				<div className='viewer-overlay'>
 					<ChangePhoto />

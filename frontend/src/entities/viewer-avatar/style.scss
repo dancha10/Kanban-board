@@ -6,8 +6,10 @@
   height: 40px;
   border-radius: 50%;
   display: inline-block;
+  transition: all .3s ease;
 
   &__name {
+    position: relative;
     font-weight: 500;
     font-size: 36px;
     line-height: 19px;
@@ -21,6 +23,12 @@
       width: 100%;
       border-radius: 50%;
     }
+
+    @media (any-hover: hover) {
+      &:hover {
+        border: 2px solid $blue;
+      }
+    }
   }
 
   &:hover .viewer-overlay {
@@ -30,15 +38,15 @@
 
 .viewer-overlay {
   position: absolute;
-  top: 0;
+  top: -1px;
   bottom: 0;
-  left: 0;
+  left: -1px;
   right: 0;
-  height: 100%;
-  width: 100%;
+  height: 105%;
+  width: 105%;
   opacity: 0;
   transition: .5s ease;
-  background-color: rgba(10, 170, 244, 0.8);;
+  background-color: rgba(10, 170, 244, 0.8);
   border-radius: 50%;
   display: flex;
   justify-content: center;
