@@ -11,7 +11,7 @@ export class UserHelperService {
     @InjectModel(User.name) private UserModel: Model<UserModelDocument>,
   ) {}
 
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string) {
     return this.UserModel.findOne({ email })
   }
 
@@ -28,8 +28,19 @@ export class UserHelperService {
     return null
   }
 
-  async createUser(email: string, password: string, nickname: string) {
+  async createUser(
+    email: string,
+    password: string,
+    nickname: string,
+    avatarURL?: string,
+  ) {
     const UID = nanoid(8)
-    return this.UserModel.create({ UID, email, password, nickname })
+    return this.UserModel.create({
+      UID,
+      email,
+      password,
+      nickname,
+      avatarURL: avatarURL ?? '',
+    })
   }
 }

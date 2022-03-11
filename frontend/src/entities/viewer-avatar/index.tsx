@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { ReactComponent as ChangePhoto } from './change_photo.svg'
+import { ReactComponent as ChangePhoto } from 'entities/viewer-avatar/change_photo.svg'
 
-import './style.scss'
+import 'entities/viewer-avatar/style.scss'
 
 export interface IViewerAvatar {
 	type: 'preview' | 'menu'

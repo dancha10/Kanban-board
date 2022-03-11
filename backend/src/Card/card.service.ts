@@ -36,7 +36,7 @@ export class CardService {
     if (!card) throw new BadRequestException("Card didn't created")
     const result = await this.columnService.addCardInColumn(createDto.CID, card)
     if (!result) throw new NotFoundException('Column not founded')
-    return { success: true }
+    return { success: card._id }
   }
 
   async createTitle(

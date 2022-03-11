@@ -74,7 +74,7 @@ export class AuthService {
     })
   }
 
-  private verifyRefreshToken(refreshToken: string): IPayload {
+  verifyRefreshToken(refreshToken: string): IPayload {
     try {
       return this.jwt.verify(refreshToken, {
         secret: process.env.REFRESH_TOKEN_SECRET,
@@ -130,5 +130,32 @@ export class AuthService {
 
   async deleteToken(token: string) {
     return this.TokenModel.deleteOne({ refreshToken: token })
+  }
+
+  async loginByOAuth(data: any) {
+    if (!data.user) throw new BadRequestException()
+    console.log(data.user)
+    try {
+      const { email, nickname, avatarURL, id } = data.user
+      const user = await this.userService.findByEmail(email)
+      if (user) return this.login({ UID: user.UID, _id: user._id })
+
+      const hashPassword: string = await bcrypt.hash(id, 10)
+      const dataUser = await this.userService.createUser(
+        email,
+        hashPassword,
+        nickname,
+        avatarURL,
+      )
+      return this.login({ UID: dataUser.UID, _id: dataUser._id })
+    } catch (e) {
+      console.log('Google error')
+      throw new Error(e)
+    }
+  }
+
+  async getUserByOAuth(cookies: string) {
+    const decode: IPayload = await this.verifyRefreshToken(cookies)
+    return this.login({ UID: decode.UID, _id: decode._id })
   }
 }

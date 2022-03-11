@@ -18,6 +18,7 @@ import { AuthService } from './auth.service'
 import { CreateUserDto } from './DTO/CreateUser.dto'
 import { IAccessToken, IFullSetOfTokens } from '../Utils/Types/promise.type'
 import { cookieSettings } from '../Utils/cookie.settings'
+import { GoogleAuthGuard } from './Guard/google-auth.guard'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -75,5 +76,32 @@ export class AuthController {
     )
     response.cookie('refreshToken', token.refreshToken, cookieSettings)
     return { accessToken: token.accessToken }
+  }
+
+  // OAuth 2.0
+  @UseGuards(GoogleAuthGuard)
+  @Get('/google')
+  @HttpCode(HttpStatus.OK)
+  async googleAuth() {
+    return { message: 'login by google loading...' }
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('/google/redirect')
+  @HttpCode(HttpStatus.OK)
+  async googleRedirect(
+    @Req()
+    request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const tokens = await this.authService.loginByOAuth(request)
+    response.cookie('refreshToken', tokens.refreshToken, cookieSettings)
+    return response.redirect('http://localhost:3000/oauth-success')
+  }
+
+  @Get('/google/success')
+  async googleSuccess(@Req() request: Request) {
+    const { refreshToken } = request.cookies
+    return this.authService.getUserByOAuth(refreshToken)
   }
 }

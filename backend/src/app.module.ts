@@ -9,6 +9,7 @@ import { BoardModule } from './Board/board.module'
 import { ColumnModule } from './column/column.module'
 import { CardModule } from './Card/card.module'
 import { FileUploadModule } from './FileUpload/file-upload.module'
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FileUploadModule } from './FileUpload/file-upload.module'
     ColumnModule,
     CardModule,
     FileUploadModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
